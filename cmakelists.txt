@@ -1,12 +1,35 @@
 cmake_minimum_required (VERSION 3.1)
 
+project (GameEngineFromScrath)
+
 set (CMAKE_C_STANDARD 11)
 set (CMAKE_CXX_STANDARD 11)
 
-project (GameEngineFromScrath)
+# start add vc path and windows SDK path, this should put in a if branch to avoid incompatiable
+# in other platform, or should i put them in the cmake file in platform/Windows ?
+# set (VC_includePath
+#     # include path of visual studio, should be auto set when using vs as cmake generator target
+#     "D:/Visual_Studio_IDE/VC/Tools/MSVC/14.33.31629/include"
+#     "D:/Visual_Studio_IDE/VC/Tools/MSVC/14.33.31629/atlmfc/include"
+#     "D:/Visual_Studio_IDE/VC/Auxiliary/VS/include"
+#     "D:/Visual_Studio_IDE/VC/Auxiliary/VS/UnitTest/include"
+#     )
+
+# set (WindowsSDK_IncludePath
+#     "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt"
+#     "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um"
+#     "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared"
+#     "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt"
+#     "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt"
+#     "C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um"
+# )
+# include_directories(${VC_includePath})
+# include_directories(${WindowsSDK_IncludePath})
+# end add path
 
 include_directories("${PROJECT_SOURCE_DIR}/Framework/Common")
 include_directories("${PROJECT_SOURCE_DIR}/Framework/Interface")
 
 add_subdirectory(Framework)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Platform)
+
