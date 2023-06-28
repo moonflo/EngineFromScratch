@@ -11,8 +11,8 @@
                 "_UNICODE"
             ],
             "compilerPath": "C:\\office_software\\mingw64\\bin\\clang.exe",
-            "cStandard": "c17",
-            "cppStandard": "gnu++17",
+            "cStandard": "c11",
+            "cppStandard": "gnu++14",
             "intelliSenseMode": "windows-clang-x64"
         }
     ],

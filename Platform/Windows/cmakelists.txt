@@ -7,5 +7,5 @@
 # #     )
 
 
-# add_executable(helloengine_d2d helloengine_d2d.cpp)
-# target_link_libraries(helloengine_d2d user32 ole32 d2d1)
+add_executable(WindowsApplication WindowsApplication.cpp)
+target_link_libraries(WindowsApplication Common)

@@ -1,9 +1,21 @@
 cmake_minimum_required (VERSION 3.1)
 
-project (GameEngineFromScrath)
-
+# CMAKE build instructions need be specify before project name
+set (CMAKE_C_COMPILER               "clang-cl")
+set (CMAKE_C_FLAGS                  "-Wall")
+set (CMAKE_C_FLAGS_DEBUG            "/Debug")
+set (CMAKE_C_FLAGS_MINSIZEREL       "-Os -DNDEBUG")
+set (CMAKE_C_FLAGS_RELEASE          "-O4 -DNDEBUG")
+set (CMAKE_C_FLAGS_RELWITHDEBINFO   "-O2 /Debug")
 set (CMAKE_C_STANDARD 11)
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_COMPILER             "clang-cl")
+# set (CMAKE_CXX_FLAGS                "-Wall -Xclang -std=gnu++14")
+set (CMAKE_CXX_FLAGS_DEBUG          "/Debug")
+set (CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG")
+set (CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG")
+set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 /Debug")
+
+project (GameEngineFromScrath)
 
 # start add vc path and windows SDK path, this should put in a if branch to avoid incompatiable
 # in other platform, or should i put them in the cmake file in platform/Windows ?
