@@ -4,13 +4,6 @@
 
 using namespace My;
 
-namespace My {
-GfxConfiguration config(8, 8, 8, 8, 32, 0, 0, 960, 540,
-                        L"Game Engine From Scratch (Windows)");
-WindowsApplication g_App(config);
-IApplication* g_pApp = &g_App;
-}  // namespace My
-
 /**
  * @description: create a windows and read the platform params
  * @return {int} BaseApp initialize state
@@ -20,7 +13,12 @@ int My::WindowsApplication::Initialize() {
 
     result = BaseApplication::Initialize();
 
-    if (result != 0) exit(result);
+    if (result != 0) {
+        printf("[ERROR] WindowsApp: BaseApplication initialize failed.\n");
+        exit(result);
+    } else {
+        printf("[INFO] WindowsApp: BaseApplication initialize sucessfully.\n");
+    }
 
     // get the HINSTANCE of the Console Program, a windows API to aquire the
     // handle of current exe
@@ -58,21 +56,23 @@ int My::WindowsApplication::Initialize() {
 
     // create the window and use the result as the handle
     hWnd =
-        CreateWindowExW(0,
-                        L"GameEngineFromScratch",  // name of the window class
-                        m_Config.appName,          // title of the window
-                        WS_OVERLAPPEDWINDOW,       // window style
-                        CW_USEDEFAULT,             // x-position of the window
-                        CW_USEDEFAULT,             // y-position of the window
-                        m_Config.screenWidth,      // width of the window
-                        m_Config.screenHeight,     // height of the window
-                        NULL,       // we have no parent window, NULL
-                        NULL,       // we aren't using menus, NULL
-                        hInstance,  // application handle
-                        NULL);      // used with multiple windows, NULL
+        CreateWindowEx(0,
+                       _T("GameEngineFromScratch"),  // name of the window class
+                       m_Config.appName,             // title of the window
+                       WS_OVERLAPPEDWINDOW,          // window style
+                       CW_USEDEFAULT,                // x-position of the window
+                       CW_USEDEFAULT,                // y-position of the window
+                       m_Config.screenWidth,         // width of the window
+                       m_Config.screenHeight,        // height of the window
+                       NULL,       // we have no parent window, NULL
+                       NULL,       // we aren't using menus, NULL
+                       hInstance,  // application handle
+                       NULL);      // used with multiple windows, NULL
 
     // display the window on the screen
     ShowWindow(hWnd, SW_SHOW);
+
+    m_hWnd = hWnd;
 
     return result;
 }

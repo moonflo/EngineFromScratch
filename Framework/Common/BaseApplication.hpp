@@ -23,6 +23,8 @@ class BaseApplication : implements IApplication {
 
     virtual bool IsQuit();
 
+    inline GfxConfiguration& GetConfiguration() { return m_Config; };
+
    protected:
     // Flag if need quit the main loop of the application
     static bool m_bQuit;

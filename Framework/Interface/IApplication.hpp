@@ -1,4 +1,5 @@
 #pragma once
+#include "GfxConfiguration.h"
 #include "IRuntimeModule.hpp"
 #include "Interface.hpp"
 
@@ -11,5 +12,6 @@ Interface IApplication : implements IRuntimeModule {
     virtual void Tick() = 0;
 
     virtual bool IsQuit() = 0;
+    virtual GfxConfiguration& GetConfiguration() = 0;
 };
 }  // namespace My

@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-06-28 10:48:53
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-06-28 13:12:08
+ * @LastEditTime: 2023-06-29 10:35:52
  * @FilePath: \EngineFromScratch\Framework\Common\Allocator.cpp
  * @Description:
  *
@@ -17,6 +17,15 @@
 #endif
 
 using namespace My;
+
+My::Allocator::Allocator()
+    : m_pPageList(nullptr),
+      m_pFreeList(nullptr),
+      m_szDataSize(0),
+      m_szPageSize(0),
+      m_szAlignmentSize(0),
+      m_szBlockSize(0),
+      m_nBlocksPerPage(0) {}
 
 My::Allocator::Allocator(size_t data_size, size_t page_size, size_t alignment)
     : m_pPageList(nullptr), m_pFreeList(nullptr) {

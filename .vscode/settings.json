@@ -23,7 +23,11 @@
     "clangd.fallbackFlags": [
         // 增加项目自身头文件依赖path，因为使用vs2019编译不会生成compile_command.json文件，项目自己的头文件就不会找到
         "-I${workspaceFolder}/Framework/Interface", // 项目根目录
-        "-I${workspaceFolder}/Framework/Common" // 项目根目录
+        "-I${workspaceFolder}/Framework/Common", // 项目根目录
+        "-I${workspaceFolder}/Platform/Windows",
+        "-I${workspaceFolder}/Platform/Linux",
+        "-I${workspaceFolder}/RHI",
+        "-I${workspaceFolder}/External/GL/include",
         // // VC_includePath
         // "-ID:/Visual_Studio_IDE/VC/Tools/MSVC/14.33.31629/include",
         // "-ID:/Visual_Studio_IDE/VC/Tools/MSVC/14.33.31629/atlmfc/include",

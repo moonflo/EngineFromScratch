@@ -25,5 +25,10 @@ class WindowsApplication : public BaseApplication {
     // the WindowProc function prototype
     static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam,
                                        LPARAM lParam);
+
+    inline HWND GetMainWindow() { return m_hWnd; };
+
+   private:
+    HWND m_hWnd;
 };
 }  // namespace My

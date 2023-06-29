@@ -29,7 +29,7 @@ struct GfxConfiguration {
                      uint32_t a = 8, uint32_t d = 24, uint32_t s = 0,
                      uint32_t msaa = 0, uint32_t width = 1920,
                      uint32_t height = 1080,
-                     const wchar_t* app_name = L"GameEngineFromScratch")
+                     const char* app_name = "GameEngineFromScratch")
         : redBits(r),
           greenBits(g),
           blueBits(b),
@@ -50,10 +50,10 @@ struct GfxConfiguration {
     uint32_t msaaSamples;  ///< MSAA samples
     uint32_t screenWidth;
     uint32_t screenHeight;
-    const wchar_t* appName;
+    const char* appName;
 
-    friend std::ostream& operator<<(std::ostream& out,
-                                    const GfxConfiguration& conf) {
+    friend std::wostream& operator<<(std::wostream& out,
+                                     const GfxConfiguration& conf) {
         out << "App Name:" << conf.appName << std::endl;
         out << "GfxConfiguration:"
             << " R:" << conf.redBits << " G:" << conf.greenBits
