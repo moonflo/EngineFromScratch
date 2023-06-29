@@ -34,4 +34,4 @@
 # Build files
 /build
 /.cache
-/.vscode/c_cpp_properties.json
+/.vscode
