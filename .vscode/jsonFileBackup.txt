@@ -1,3 +1,80 @@
+
+// 1. c_cpp_properties
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "D:\\Visual_studio_IDE\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "windows-msvc-x64"
+        }
+    ],
+    "version": 4
+}
+
+// 2. launch
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "2.0.0",
+    "configurations": [
+        {
+            "name": "build and debug mutiple files",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\office_software\\mingw64\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Compile"
+        },
+        {
+            "name": "build and debug single file",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\office_software\\mingw64\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Single_Compile"
+        },
+    ]
+}
+
+
+// 3. settings
 {
     "files.defaultLanguage": "c++", // ctrl+N新建文件后默认的语言
     "editor.formatOnType": true, // 输入分号(C/C++的语句结束标识)后自动格式化当前这一行的代码
@@ -19,7 +96,7 @@
         "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt.exe -Wall -g -O2 -std=c++14 -static-libgcc -fexec-charset=GBK  && &$dir$fileNameWithoutExt" // 此处采用CBK编码输出为了输出中文不乱码
     },
     "C_Cpp.clang_format_sortIncludes": true,
-    "C_Cpp.default.compilerPath": "C:\\office_software\\mingw64\\bin\\clang.exe", // 格式化时调整include的顺序（按字母排序）
+    "C_Cpp.default.compilerPath": "C:\\codingEnv\\LLVM\\bin\\clang++.exe", // 格式化时调整include的顺序（按字母排序）
     "clangd.fallbackFlags": [
         // 增加项目自身头文件依赖path，因为使用vs2019编译不会生成compile_command.json文件，项目自己的头文件就不会找到
         "-I${workspaceFolder}/Framework/Interface", // 项目根目录
@@ -97,3 +174,45 @@
 //     ],
 //     "version": 4
 // }
+
+// tasks
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Compile",
+            "command": "cd  ${fileDirname}/../ ; mingw32-make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "type": "shell",
+            "label": "Single_Compile",
+            "command": "g++",
+            "args": [
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.exe",
+                "-Wall",
+                "-O2",
+                "-static-libgcc",
+                "-std=c++17",
+                "-g"
+            ],
+            "options": {
+                "cwd": "C:\\office_software\\mingw64\\bin" //换成自己的mingw bin路径
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
