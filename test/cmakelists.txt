@@ -40,7 +40,7 @@ project(Ispc_tutorial)
 #     ispcLibrary
 # )
 
-
+MESSAGE("RUNNING TEST CMAKE FILE......." )
 IF(${WIN32})
         SET(ispcTest_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/ispcTest.lib)
         SET(ISPC_COMPILER ispc.exe)
@@ -58,6 +58,7 @@ ENDIF(${WIN32})
 SET(ispcTest_LIB_HEADER_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_custom_command(OUTPUT ${ispcTest_LIB_FILE}
+        COMMAND ${CMAKE_COMMAND} -E echo "Pre-build command"
         COMMAND ${ISPC_COMPILER} ${ISPC_OPTIONS} -o mandelbrot_ispc.o -I${CMAKE_CURRENT_SOURCE_DIR} -h ${CMAKE_CURRENT_SOURCE_DIR}/include/ispcTest.h ${CMAKE_CURRENT_SOURCE_DIR}/ispc/mandelbrot_ispc.ispc
         COMMAND ${LIBRARIAN_COMMAND} ${LIBRARIAN_OPTIONS} mandelbrot_ispc.o
         )
@@ -79,8 +80,8 @@ set_directory_properties(
         PROPERTIES
         ADDITIONAL_MAKE_CLEAN_FILES mandelbrot_ispc.o
 )
-
-add_executable(test ispcTest.cpp)
-target_link_libraries(test ispcTest)
+MESSAGE("RUN OVER." )
+# add_executable(test ispcTest.cpp)
+# target_link_libraries(test ispcTest)
 
 
