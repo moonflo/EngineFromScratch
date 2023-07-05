@@ -1,0 +1,10 @@
+^C:\CODINGENV\ISPC-V1.20.0-WINDOWS\EXAMPLES\CPU\BUILD\CMAKEFILES\E375FA04AA97E6D523288AEA0CF5686E\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/codingEnv/ispc-v1.20.0-windows/examples/cpu -BC:/codingEnv/ispc-v1.20.0-windows/examples/cpu/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/codingEnv/ispc-v1.20.0-windows/examples/cpu/build/ispc_examples.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

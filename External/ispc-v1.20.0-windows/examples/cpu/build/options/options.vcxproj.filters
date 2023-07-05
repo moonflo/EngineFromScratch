@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\options\options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\options\options_serial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\codingEnv\ispc-v1.20.0-windows\examples\common\tasksys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options_ispc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options_ispc_sse2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options_ispc_sse4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options_ispc_avx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options_ispc_avx2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options_ispc_avx512knl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options_ispc_avx512skx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\options\options.ispc">
+      <Filter>ISPC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\options\options_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\codingEnv\ispc-v1.20.0-windows\examples\common\timing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\CMakeFiles\6ede025eaff43770e68edd985f1cb709\options_ispc.h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\options\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options.ispc.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options.ispc_sse2.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options.ispc_sse4.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options.ispc_avx.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options.ispc_avx2.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options.ispc_avx512knl.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\options\options.ispc_avx512skx.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C00C9B45-CF64-3B1F-89A0-0F868EAAA4E4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{12CCFAA0-52B8-357F-981D-7DED26A725E0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ISPC">
+      <UniqueIdentifier>{817BB630-ECFE-304B-B108-01D45150F525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Files">
+      <UniqueIdentifier>{50C0D24B-6585-37F7-BD15-BA9827026C1F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{B7FCBCF4-5F14-314D-9D9C-5C2BC4220234}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

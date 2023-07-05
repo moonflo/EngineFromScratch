@@ -1,0 +1,20 @@
+^C:\CODINGENV\ISPC-V1.20.0-WINDOWS\EXAMPLES\CPU\BUILD\CMAKEFILES\A73442CBD83042E55E9B51339B3307B3\SIMPLE_ISPC.H.RULE
+setlocal
+C:\codingEnv\ispc-v1.20.0-windows\bin\ispc.exe C:/codingEnv/ispc-v1.20.0-windows/examples/cpu/simple/simple.ispc -O2 --target=sse2 --arch=x86-64 -h C:/codingEnv/ispc-v1.20.0-windows/examples/cpu/build/simple/simple_ispc.h -o C:/codingEnv/ispc-v1.20.0-windows/examples/cpu/build/simple/simple.ispc.obj
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\CODINGENV\ISPC-V1.20.0-WINDOWS\EXAMPLES\CPU\SIMPLE\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/codingEnv/ispc-v1.20.0-windows/examples/cpu -BC:/codingEnv/ispc-v1.20.0-windows/examples/cpu/build --check-stamp-file C:/codingEnv/ispc-v1.20.0-windows/examples/cpu/build/simple/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
