@@ -5,3 +5,5 @@ GraphicsManager.cpp
 MemoryManager.cpp
 main.cpp
 )
+
+target_link_libraries(Common GeomMath)

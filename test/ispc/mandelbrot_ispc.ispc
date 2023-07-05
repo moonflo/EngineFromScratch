@@ -6,6 +6,21 @@
 ** 所有传入的参数都必须是uniform的,它的主要意义是界定了该值在每个线程中都是
 ** 不变的，是一种线程安全的值？；
 */
+// 计算最大迭代次数内的迭代情况，如果发散了就break并且跳出，如果没有就迭代到最大值为止，返回是迭代次数
+static inline int mandel(float c_re, float c_im, int count) {
+    float z_re = c_re, z_im = c_im;
+    int i;
+    for (i = 0; i < count; ++i) {
+        if (z_re * z_re + z_im * z_im > 4.)
+            break;
+        float new_re = z_re*z_re - z_im*z_im;
+        float new_im = 2.f * z_re * z_im;
+        z_re = c_re + new_re;
+        z_im = c_im + new_im;
+    }
+    return i;
+}
+
 export void mandelbrot_ispc(
     uniform float x0, uniform float y0,
     uniform float x1, uniform float y1,
@@ -32,17 +47,3 @@ export void mandelbrot_ispc(
     }
 }
 
-// 计算最大迭代次数内的迭代情况，如果发散了就break并且跳出，如果没有就迭代到最大值为止，返回是迭代次数
-static inline int mandel(float c_re, float c_im, int count) {
-    float z_re = c_re, z_im = c_im;
-    int i;
-    for (i = 0; i < count; ++i) {
-        if (z_re * z_re + z_im * z_im > 4.)
-            break;
-        float new_re = z_re*z_re - z_im*z_im;
-        float new_im = 2.f * z_re * z_im;
-        z_re = c_re + new_re;
-        z_im = c_im + new_im;
-    }
-    return i;
-}
