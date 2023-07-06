@@ -1,4 +1,4 @@
-#include "MulByElement.isph"
+extern void MulByElement(uniform const float a[], uniform const float b[], uniform float result[], uniform const int count);
 
 export void DotProduct(uniform float a[], uniform float b[], uniform float* uniform result, uniform int count) {
 	*result = 0;

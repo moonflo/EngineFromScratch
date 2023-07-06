@@ -1,7 +1,0 @@
-﻿  Generating rt_ispc.h, rt.ispc.obj, rt_ispc_sse2.h, rt.ispc_sse2.obj, rt_ispc_sse4.h, rt.ispc_sse4.obj, rt_ispc_avx.h, rt.ispc_avx.obj, rt_ispc_avx2.h, rt.ispc_avx2.obj, rt_ispc_avx512knl.h, rt.ispc_avx512knl.obj, rt_ispc_avx512skx.h, rt.ispc_avx512skx.obj
-  Building Custom Rule C:/codingEnv/ispc-v1.20.0-windows/examples/cpu/rt/CMakeLists.txt
-  rt.cpp
-  rt_serial.cpp
-  tasksys.cpp
-  正在生成代码...
-  rt.vcxproj -> C:\codingEnv\ispc-v1.20.0-windows\examples\cpu\build\rt\Debug\rt.exe

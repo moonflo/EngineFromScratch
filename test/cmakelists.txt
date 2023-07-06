@@ -34,7 +34,6 @@ add_custom_command(OUTPUT ${ispcTest_LIB_FILE}
         COMMAND ${ISPC_COMPILER} ${ISPC_OPTIONS} -o mandelbrot_ispc.o -I${CMAKE_CURRENT_SOURCE_DIR} -h ${CMAKE_CURRENT_SOURCE_DIR}/include/ispcTest.h ${CMAKE_CURRENT_SOURCE_DIR}/ispc/mandelbrot_ispc.ispc
         COMMAND ${LIBRARIAN_COMMAND} ${LIBRARIAN_OPTIONS} mandelbrot_ispc.o
         )
-
 # make an new target that depend on lib we generate, kind of change name i think
 add_custom_target(ISPC_T
                    DEPENDS ${ispcTest_LIB_FILE}
