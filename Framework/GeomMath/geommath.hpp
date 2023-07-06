@@ -2,8 +2,8 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-06 09:50:02
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-06 16:23:18
- * @FilePath: \EngineFromScratch\Framework\GeomMath\geommath.h
+ * @LastEditTime: 2023-07-06 19:14:30
+ * @FilePath: \EngineFromScratch\Framework\GeomMath\geommath.hpp
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -193,6 +193,11 @@ inline void CrossProduct(TT<T>& result, const TT<T>& vec1, const TT<T>& vec2) {
 
 template <template <typename> class TT, typename T>
 inline void DotProduct(T& result, const TT<T>& vec1, const TT<T>& vec2) {
+    ispc::DotProduct(vec1, vec2, &result, countof(vec1.data));
+}
+
+template <template <typename> class TT, typename T>
+inline void DotProduct(T& result, TT<T>& vec1, TT<T>& vec2) {
     ispc::DotProduct(vec1, vec2, &result, countof(vec1.data));
 }
 

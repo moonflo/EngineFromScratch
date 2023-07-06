@@ -180,6 +180,9 @@ MESSAGE( STATUS "CMAKE_RANLIB: " ${CMAKE_RANLIB} )
 
 # ------------------------- End of Generic CMake Variable Logging ------------------
 
+# identical with ispc flag
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --arch=x86-64 --target=host")
+
 project (GameEngineFromScrath)
 include_directories("${PROJECT_SOURCE_DIR}/Framework/Common")
 include_directories("${PROJECT_SOURCE_DIR}/Framework/Interface")
@@ -193,4 +196,4 @@ ENDIF(${UNIX})
 add_subdirectory(Framework)
 add_subdirectory(Platform)
 add_subdirectory(RHI)
-add_subdirectory(test)
+add_subdirectory(m_test)

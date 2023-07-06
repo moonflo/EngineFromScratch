@@ -57,7 +57,7 @@ set_directory_properties(
 MESSAGE("RUN OVER." )
 
 # after the script above, we created an lib target that related with ispcLib, then we could make an exe link to it and call our ispc func
-add_executable(test ispcTest.cpp)
-target_link_libraries(test ispcTest)
+add_executable(m_test ispcTest.cpp)
+target_link_libraries(m_test ispcTest)
 
 
