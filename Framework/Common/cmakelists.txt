@@ -4,6 +4,7 @@ BaseApplication.cpp
 GraphicsManager.cpp
 MemoryManager.cpp
 main.cpp
+AssetLoader.cpp
 )
 
 target_link_libraries(Common GeomMath)

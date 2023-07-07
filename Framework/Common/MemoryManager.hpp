@@ -35,6 +35,7 @@ class MemoryManager : implements IRuntimeModule {
     virtual void Tick();
 
     void* Allocate(size_t size);
+    void* Allocate(size_t size, size_t alignment);
     void Free(void* p, size_t size);
 
    private:
