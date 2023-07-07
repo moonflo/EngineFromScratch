@@ -4,23 +4,24 @@
 using namespace std;
 using namespace My;
 
-void vector_test() {
-    Vector2f x = {55.3f, 22.1f};
+void vector_test()
+{
+    Vector2f x = { 55.3f, 22.1f };
     cout << "Vector2f: ";
     cout << x;
 
-    Vector3f a = {1.0f, 2.0f, 3.0f};
-    Vector3f b = {5.0f, 6.0f, 7.0f};
+    Vector3f a = { 1.0f, 2.0f, 3.0f };
+	Vector3f b = { 5.0f, 6.0f, 7.0f };
 
     cout << "vec 1: ";
-    cout << a;
+	cout << a;
     cout << "vec 2: ";
-    cout << b;
+	cout << b;
 
-    Vector3f c;
+	Vector3f c;
     CrossProduct(c, a, b);
     cout << "Cross Product of vec 1 and vec 2: ";
-    cout << c;
+	cout << c;
 
     float d;
     DotProduct(d, a, b);
@@ -29,13 +30,13 @@ void vector_test() {
 
     MulByElement(c, a, b);
     cout << "Element Product of vec 1 and vec 2: ";
-    cout << c;
+	cout << c;
 
-    Vector4f e = {-3.0f, 3.0f, 6.0f, 1.0f};
-    Vector4f f = {2.0f, 0.0f, -0.7f, 0.0f};
+    Vector4f e = { -3.0f, 3.0f, 6.0f, 1.0f };
+    Vector4f f = { 2.0f, 0.0f, -0.7f, 0.0f };
     cout << "vec 3: " << e;
     cout << "vec 4: " << f;
-
+    
     Vector4f g = e + f;
     cout << "vec 3 + vec 4: " << g;
     g = e - f;
@@ -45,7 +46,8 @@ void vector_test() {
     cout << "normalized: " << g;
 }
 
-void matrix_test() {
+void matrix_test()
+{
     Matrix4X4f m1;
     BuildIdentityMatrix(m1);
 
@@ -55,8 +57,7 @@ void matrix_test() {
     float yaw = 0.2, pitch = 0.3, roll = 0.4;
     MatrixRotationYawPitchRoll(m1, yaw, pitch, roll);
 
-    cout << "Matrix of yaw(" << yaw << ") pitch(" << pitch << ") roll(" << roll
-         << "):";
+    cout << "Matrix of yaw(" << yaw << ") pitch(" << pitch << ") roll(" << roll << "):";
     cout << m1;
 
     Matrix4X4f ry;
@@ -76,11 +77,10 @@ void matrix_test() {
     Matrix4X4f translate;
     MatrixTranslation(translate, x, y, z);
 
-    cout << "Matrix of Translation on X(" << x << ") Y(" << y << ") Z(" << z
-         << "):";
+    cout << "Matrix of Translation on X(" << x << ") Y(" << y << ") Z(" << z << "):";
     cout << translate;
 
-    Vector3f v = {1.0f, 0.0f, 0.0f};
+    Vector3f v = { 1.0f, 0.0f, 0.0f };
 
     Vector3f v1 = v;
     cout << "Vector : " << v1;
@@ -106,29 +106,29 @@ void matrix_test() {
     cout << "Now the vector becomes: " << v1;
     cout << std::endl;
 
-    Vector3f position = {0, 0, -5}, lookAt = {0, 0, 0}, up = {0, 1, 0};
+    Vector3f position = { 0, 0, -5 }, lookAt = { 0, 0, 0 }, up = { 0, 1, 0 };
     Matrix4X4f view;
     BuildViewMatrix(view, position, lookAt, up);
-    cout << "View Matrix with position(" << position << ") lookAt(" << lookAt
-         << ") up(" << up << "):";
+    cout << "View Matrix with position(" << position << ") lookAt(" << lookAt << ") up(" << up << "):";
     cout << view;
 
     float fov = PI / 2.0f, aspect = 16.0f / 9.0f, near = 1.0f, far = 100.0f;
     Matrix4X4f perspective;
     BuildPerspectiveFovLHMatrix(perspective, fov, aspect, near, far);
-    cout << "Perspective Matrix with fov(" << fov << ") aspect(" << aspect
-         << ") near ... far(" << near << " ... " << far << "):";
+    cout << "Perspective Matrix with fov(" << fov << ") aspect(" << aspect << ") near ... far(" << near << " ... " << far << "):";
     cout << perspective;
 
     Matrix4X4f mvp = view * perspective;
     cout << "MVP:" << mvp;
 }
 
-int main() {
+int main()
+{
     cout << std::fixed;
 
     vector_test();
     matrix_test();
 
-    return 0;
+	return 0;
 }
+

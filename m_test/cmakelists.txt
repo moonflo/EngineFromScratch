@@ -3,38 +3,51 @@ project(Ispc_tutorial)
 MESSAGE("RUNNING TEST CMAKE FILE......." )
 # set make parm
 IF(${WIN32})
-        # the path where we gonna put lib in
         SET(ispcTest_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/ispcTest.lib)
-
-        # since we already add ispc in system path, the ispc.exe can be easily found
         SET(ISPC_COMPILER ispc.exe)
-
-        # set arch in x86(32-bit), sometimes will throw a error when i use x64 to complie
-        SET(ISPC_OPTIONS --arch=x86-64 --target=host)
-
-        # this lib command is unkonwn in cmd, but works in cmake, how?
-        SET(LIBRARIAN_COMMAND lib)
-
-        #
-        SET(LIBRARIAN_OPTIONS /OUT:${ispcTest_LIB_FILE})
-ELSE(${WIN32})
+        # SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/External/ispc/Release/)
+        if($ENV{VSCMD_ARG_TGT_ARCH} MATCHES "x64")
+                MESSAGE("[DEBUG] Using x64 as .o and .lib generater." )
+            SET(ISPC_OPTIONS --arch=x86-64)
+            SET(LIBRARIAN_COMMAND lib /MACHINE:X64 /OUT:${ispcTest_LIB_FILE})
+        else()
+                MESSAGE("[DEBUG] Using x86 as .o and .lib generater." )
+            SET(ISPC_OPTIONS --arch=x86)
+            SET(LIBRARIAN_COMMAND lib /MACHINE:X86 /OUT:${ispcTest_LIB_FILE})
+        endif()
+ELSE()
         SET(ispcTest_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/libispcTest.a)
         SET(ISPC_COMPILER ispc)
-        SET(ISPC_OPTIONS --arch=x86-64 --target=host)
-        SET(LIBRARIAN_COMMAND ar)
-        SET(LIBRARIAN_OPTIONS -cr -o ${ispcTest_LIB_FILE})
+        # SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/External/ispc/)
+        SET(ISPC_OPTIONS --arch=x86-64)
+        SET(LIBRARIAN_COMMAND ar -crv -o ${ispcTest_LIB_FILE})
 ENDIF(${WIN32})
 
 # head file that auto-generated in this dir
 SET(ispcTest_LIB_HEADER_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# command that will execute during build procedure and generate the lib & .h file we needed
-add_custom_command(OUTPUT ${ispcTest_LIB_FILE}
-        COMMAND ${CMAKE_COMMAND} -E echo "Pre-build command"
-        COMMAND ${ISPC_COMPILER} ${ISPC_OPTIONS} -o mandelbrot_ispc.o -I${CMAKE_CURRENT_SOURCE_DIR} -h ${CMAKE_CURRENT_SOURCE_DIR}/include/ispcTest.h ${CMAKE_CURRENT_SOURCE_DIR}/ispc/mandelbrot_ispc.ispc
-        COMMAND ${LIBRARIAN_COMMAND} ${LIBRARIAN_OPTIONS} mandelbrot_ispc.o
+set(FUNCTIONS CrossProduct DotProduct MulByElement Transpose Normalize
+              Transform AddByElement SubByElement mandelbrot_ispc
         )
-# make an new target that depend on lib we generate, kind of change name i think
+
+foreach(FUNC IN LISTS FUNCTIONS)
+    add_custom_command(OUTPUT ${FUNC}.o
+        # COMMAND ${CMAKE_COMMAND} -E env "PATH=${ISPC_COMPILER_PATH}" 
+        COMMAND ispc.exe ${ISPC_OPTIONS} --target=host -o ${FUNC}.o -I${CMAKE_CURRENT_SOURCE_DIR} -h ${ispcTest_LIB_HEADER_FOLDER}/${FUNC}.h ${CMAKE_CURRENT_SOURCE_DIR}/ispc/${FUNC}.ispc
+        MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/ispc/${FUNC}.ispc
+        COMMENT "Building ${FUNC}"
+        )
+
+    list(APPEND OBJECTS ${FUNC}.o)
+
+endforeach(FUNC)
+
+add_custom_command(OUTPUT ${ispcTest_LIB_FILE}
+        COMMAND ${LIBRARIAN_COMMAND} ${OBJECTS}
+        # COMMAND del -v ${OBJECTS}
+        DEPENDS ${OBJECTS}
+        )
+
 add_custom_target(ISPC_T
                    DEPENDS ${ispcTest_LIB_FILE}
 )
@@ -50,10 +63,6 @@ set_target_properties(ispcTest
         INTERFACE_INCLUDE_DIRECTORIES ${ispcTest_LIB_HEADER_FOLDER}
         )
 
-set_directory_properties(
-        PROPERTIES
-        ADDITIONAL_MAKE_CLEAN_FILES mandelbrot_ispc.o
-)
 MESSAGE("RUN OVER." )
 
 # after the script above, we created an lib target that related with ispcLib, then we could make an exe link to it and call our ispc func
