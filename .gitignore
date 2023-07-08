@@ -36,3 +36,16 @@
 /.cache
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+
+build*/
+*.*~
+*.pdb
+*.ilk
+*.vso
+*.pso
+**/.vs
+*.swp
+**/Debug
+**/Release
+**/lib
+**/lib64

@@ -1,21 +1,8 @@
 [submodule "ispc"]
 	path = External/src/ispc
-	url = https://github.com/netwarm007/ispc.git
-[submodule "llvm"]
-	path = External/src/llvm
-	url = http://llvm.org/git/llvm
-[submodule "clang"]
-	path = External/src/clang
-	url = http://llvm.org/git/clang
-[submodule "libpng"]
-	path = External/src/libpng
-	url = git://git.code.sf.net/p/libpng/code
-[submodule "zlib"]
-	path = External/src/zlib
-	url = https://github.com/netwarm007/zlib.git
-[submodule "opengex"]
+	url = https://github.com/moonflo/ispc
+[submodule "External/src/opengex"]
 	path = External/src/opengex
-	url = https://github.com/netwarm007/OpenGEX.git
-[submodule "crossguid"]
-	path = External/src/crossguid
-	url = https://github.com/netwarm007/crossguid
+	url = https://github.com/moonflo/OpenGEX
+
+
