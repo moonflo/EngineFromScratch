@@ -1,10 +1,11 @@
 #include <tchar.h>
 #include <iostream>
+#include "WindowsApplication.hpp"
+
 #include "AssetLoader.hpp"
 #include "BMP.hpp"
 #include "D2d/D2dGraphicsManager.hpp"
 #include "MemoryManager.hpp"
-#include "WindowsApplication.hpp"
 #include "utility.hpp"
 
 using namespace My;
@@ -25,6 +26,8 @@ class TestApplication : public WindowsApplication {
     using WindowsApplication::WindowsApplication;
 
     virtual int Initialize();
+    //virtual void Finalize();
+    //virtual void Tick();
 
     virtual void OnDraw();
 
@@ -48,7 +51,12 @@ int My::TestApplication::Initialize() {
     int result;
 
     result = WindowsApplication::Initialize();
-
+    if (result == 0) {
+        result =
+            static_cast<D2dGraphicsManager*>(g_pGraphicsManager)->Initialize();
+    } else {
+        std::cout << "[ERROR] Windows initial failed.\n";
+    }
     if (result == 0) {
         AssetLoader asset_loader;
         BmpParser parser;
@@ -56,12 +64,17 @@ int My::TestApplication::Initialize() {
             asset_loader.SyncOpenAndReadBinary("Textures/icelogo-color.bmp");
 
         m_Image[0] = parser.Parse(buf);
-
+        std::cout << "Bmp--"
+                  << "Textures/icelogo-color.bmp loaded" << std::endl;
         buf = asset_loader.SyncOpenAndReadBinary("Textures/icelogo-normal.bmp");
 
         m_Image[1] = parser.Parse(buf);
+        std::cout << "Bmp--"
+                  << "Textures/icelogo-normal.bmp loaded" << std::endl;
+    } else {
+        std::cout << "[ERROR] D2dGraphicsManager initial failed.\n";
     }
-
+    OnDraw();
     return result;
 }
 
@@ -74,15 +87,21 @@ void My::TestApplication::OnDraw() {
 
 void My::TestGraphicsManager::DrawBitmap(const Image* image, int32_t index) {
     HRESULT hr;
-
+    std::cout << "[INFO] Probe1." << std::endl;
+    if (m_pRenderTarget != nullptr) {
+        m_pRenderTarget->BeginDraw();
+    } else {
+        std::cout << "[ERROR] RenderTarget is null.\n";
+        return;
+    }
     // start build GPU draw command
-    m_pRenderTarget->BeginDraw();
-
+    std::cout << "[INFO] Probe2." << std::endl;
     D2D1_BITMAP_PROPERTIES props;
     props.pixelFormat.format = DXGI_FORMAT_R8G8B8A8_UNORM;
     props.pixelFormat.alphaMode = D2D1_ALPHA_MODE_IGNORE;
     props.dpiX = 72.0f;
     props.dpiY = 72.0f;
+
     SafeRelease(&m_pBitmap);
     hr = m_pRenderTarget->CreateBitmap(
         D2D1::SizeU(image[index].Width, image[index].Height), image[index].data,

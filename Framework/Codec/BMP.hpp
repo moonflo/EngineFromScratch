@@ -1,23 +1,3 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-07 15:45:17
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-07 15:57:09
- * @FilePath: \EngineFromScratch\Framework\Codec\BMP.hpp
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-07 15:45:17
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-07 15:45:45
- * @FilePath: \EngineFromScratch\Framework\Codec\BMP.hpp
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
 #pragma once
 #include <iostream>
 #include "ImageParser.hpp"
@@ -25,12 +5,13 @@
 namespace My {
 #pragma pack(push, 1)
 typedef struct _BITMAP_FILEHEADER {
-    uint16_t Signature; // 2 bytes
+    uint16_t Signature;
     uint32_t Size;
     uint32_t Reserved;
-    uint32_t BitsOffset; // 4 bytes
+    uint32_t BitsOffset;
 } BITMAP_FILEHEADER;
 
+//
 #define BITMAP_FILEHEADER_SIZE 14
 
 typedef struct _BITMAP_HEADER {
@@ -76,9 +57,11 @@ class BmpParser : implements ImageParser {
             img.Height = pBmpHeader->Height;
             img.bitcount = 32;
             img.pitch = ((img.Width * img.bitcount >> 3) + 3) & ~3;
+
             img.data_size = img.pitch * img.Height;
+
             img.data = reinterpret_cast<R8G8B8A8Unorm*>(
-                g_pMemoryManager->Allocate(img.data_size));
+                g_pMemoryManager->Allocate(img.data_size, 4));
 
             if (img.bitcount < 24) {
                 std::cout << "Sorry, only true color BMP is supported at now."
@@ -88,14 +71,15 @@ class BmpParser : implements ImageParser {
                 for (int32_t y = img.Height - 1; y >= 0; y--) {
                     for (uint32_t x = 0; x < img.Width; x++) {
                         (img.data + img.Width * (img.Height - y - 1) + x)
-                            ->bgra = *reinterpret_cast<R8G8B8A8Unorm*>(
+                            ->bgra = *(reinterpret_cast<R8G8B8A8Unorm*>(
                             pSourceData + img.pitch * y +
-                            x * (img.bitcount >> 3));
+                            x * (img.bitcount >> 3)));
+                        //printf("[%d]-[%d] ", y, x);
                     }
+                    //printf("\n");
                 }
             }
         }
-
         return img;
     }
 };
