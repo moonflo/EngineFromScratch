@@ -9,3 +9,6 @@
 [submodule "External/src/ispc"]
 	path = External/src/ispc
 	url = https://github.com/moonflo/ispc
+[submodule "External/src/corssguid"]
+	path = External/src/corssguid
+	url = https://github.com/moonflo/crossguid
