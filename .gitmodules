@@ -8,7 +8,7 @@
 	path = External/src/ispc
 	url = https://github.com/moonflo/ispc
 [submodule "External/src/corssguid"]
-	path = External/src/corssguid
+	path = External/src/crossguid
 	url = https://github.com/moonflo/crossguid
 [submodule "External/src/libpng"]
 	path = External/src/libpng

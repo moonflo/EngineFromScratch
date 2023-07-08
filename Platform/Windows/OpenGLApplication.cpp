@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-08 09:31:25
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-08 22:23:43
+ * @LastEditTime: 2023-07-08 22:30:50
  * @FilePath: \EngineFromScratch\Platform\Windows\OpenGLApplication.cpp
  * @Description: 
  * 
@@ -95,6 +95,6 @@ void My::OpenGLApplication::Finalize() {
 }
 
 void My::OpenGLApplication::Tick() {
-    std::cout << "[INFO] OpenGLAPP: ticking...\n";
+    //std::cout << "[INFO] OpenGLAPP: ticking...\n";
     WindowsApplication::Tick();
 }

@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-08 09:31:25
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-08 21:49:14
+ * @LastEditTime: 2023-07-08 23:03:28
  * @FilePath: \EngineFromScratch\Framework\Common\main.cpp
  * @Description: 
  * 
@@ -12,7 +12,8 @@
 #include "GraphicsManager.hpp"
 #include "IApplication.hpp"
 #include "MemoryManager.hpp"
-
+#include "AssetLoader.hpp"
+#include "OGEX.hpp"
 using namespace My;
 
 namespace My {

@@ -1,0 +1,13 @@
+prefix=F:/UEProjects/EngineFromScratch/External
+exec_prefix=F:/UEProjects/EngineFromScratch/External
+libdir=F:/UEProjects/EngineFromScratch/External/Windows/lib
+sharedlibdir=F:/UEProjects/EngineFromScratch/External/Windows/lib
+includedir=F:/UEProjects/EngineFromScratch/External/Windows/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.11
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
