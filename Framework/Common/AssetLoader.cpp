@@ -2,13 +2,14 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-07 12:12:03
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-07 15:16:04
+ * @LastEditTime: 2023-07-08 21:38:07
  * @FilePath: \EngineFromScratch\Framework\Common\AssetLoader.cpp
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 #include "AssetLoader.hpp"
+#include <stdio.h>
 
 int My::AssetLoader::Initialize() { return 0; }
 

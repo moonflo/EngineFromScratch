@@ -1,8 +1,6 @@
 [submodule "External/src/opengex"]
 	path = External/src/opengex
 	url = https://github.com/moonflo/OpenGEX
-
-
 [submodule "External/src/zlib"]
 	path = External/src/zlib
 	url = https://github.com/moonflo/zlib
