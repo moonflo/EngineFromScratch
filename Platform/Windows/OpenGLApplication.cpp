@@ -1,15 +1,14 @@
 /*
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-06-28 19:10:47
+ * @Date: 2023-07-08 09:31:25
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-06-29 11:31:35
+ * @LastEditTime: 2023-07-08 22:23:43
  * @FilePath: \EngineFromScratch\Platform\Windows\OpenGLApplication.cpp
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 #include "OpenGLApplication.hpp"
-#include <errhandlingapi.h>
 #include <stdio.h>
 #include <tchar.h>
 #include "MemoryManager.hpp"
@@ -34,10 +33,8 @@ int My::OpenGLApplication::Initialize() {
     int result;
     result = WindowsApplication::Initialize();
     if (result) {
-        printf("[ERROR] OpenGLApp: Windows Application initialize failed.\n");
+        printf("Windows Application initialize failed!");
     } else {
-        printf(
-            "[INFO] OpenGLApp: Windows Application initialize sucessfully.\n");
         PIXELFORMATDESCRIPTOR pfd;
         memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
         pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
@@ -55,38 +52,23 @@ int My::OpenGLApplication::Initialize() {
         HDC hDC = GetDC(hWnd);
         // Set a temporary default pixel format.
         int nPixelFormat = ChoosePixelFormat(hDC, &pfd);
-        if (nPixelFormat == 0) return -1;
-
-        // Examining Pixel format
-        DescribePixelFormat(hDC, nPixelFormat, sizeof(pfd), &pfd);
-        printf("Pixel format: %d\n", nPixelFormat);
-        printf("Color bits: %d\n", pfd.cColorBits);
-        printf("Depth bits: %d\n", pfd.cDepthBits);
-        printf("Stencil bits: %d\n", pfd.cStencilBits);
-        printf("Flags: %x\n", pfd.dwFlags);
+        if (nPixelFormat == 0)
+            return -1;
 
         result = SetPixelFormat(hDC, nPixelFormat, &pfd);
         if (result != 1) {
-            auto errorCode = GetLastError();
-            printf(
-                "[ERROR] OpenGLApp: SetPixelFormat failed with exit code "
-                "%lu.\n",
-                errorCode);
             return -1;
         }
 
         // Create a temporary rendering context.
         m_RenderContext = wglCreateContext(hDC);
         if (!m_RenderContext) {
-            printf("[ERROR] OpenGLApp: wglCreateContext failed.\n");
             return -1;
         }
 
-        // Set the temporary rendering context as the current rendering context
-        // for this window.
+        // Set the temporary rendering context as the current rendering context for this window.
         result = wglMakeCurrent(hDC, m_RenderContext);
         if (result != 1) {
-            printf("[ERROR] OpenGLApp: wglMakeCurrent failed.\n");
             return -1;
         }
 
@@ -112,4 +94,7 @@ void My::OpenGLApplication::Finalize() {
     WindowsApplication::Finalize();
 }
 
-void My::OpenGLApplication::Tick() { WindowsApplication::Tick(); }
+void My::OpenGLApplication::Tick() {
+    std::cout << "[INFO] OpenGLAPP: ticking...\n";
+    WindowsApplication::Tick();
+}

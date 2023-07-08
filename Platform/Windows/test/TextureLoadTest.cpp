@@ -52,12 +52,6 @@ int My::TestApplication::Initialize() {
 
     result = WindowsApplication::Initialize();
     if (result == 0) {
-        result =
-            static_cast<D2dGraphicsManager*>(g_pGraphicsManager)->Initialize();
-    } else {
-        std::cout << "[ERROR] Windows initial failed.\n";
-    }
-    if (result == 0) {
         AssetLoader asset_loader;
         BmpParser parser;
         Buffer buf =
