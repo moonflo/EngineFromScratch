@@ -12,3 +12,6 @@
 [submodule "External/src/corssguid"]
 	path = External/src/corssguid
 	url = https://github.com/moonflo/crossguid
+[submodule "External/src/libpng"]
+	path = External/src/libpng
+	url = https://github.com/moonflo/libpng
