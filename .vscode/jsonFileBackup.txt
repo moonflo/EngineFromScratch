@@ -93,7 +93,7 @@
         "javascript": "node",
         "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
         "c": "cd $dir && gcc '$fileName' -o '$fileNameWithoutExt.exe' -Wall -g -O2 -static-libgcc -std=c11 -fexec-charset=GBK && &'$dir$fileNameWithoutExt'",
-        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt.exe -Wall -g -O2 -std=c++14 -static-libgcc -fexec-charset=GBK  && &$dir$fileNameWithoutExt" // 此处采用CBK编码输出为了输出中文不乱码
+        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt.exe -Wall -g -O2 -std=c++17 -static-libgcc -fexec-charset=GBK  && &$dir$fileNameWithoutExt" // 此处采用CBK编码输出为了输出中文不乱码
     },
     "C_Cpp.clang_format_sortIncludes": true,
     "C_Cpp.default.compilerPath": "C:\\codingEnv\\LLVM\\bin\\clang++.exe", // 格式化时调整include的顺序（按字母排序）
@@ -101,10 +101,15 @@
         // 增加项目自身头文件依赖path，因为使用vs2019编译不会生成compile_command.json文件，项目自己的头文件就不会找到
         "-I${workspaceFolder}/Framework/Interface", // 项目根目录
         "-I${workspaceFolder}/Framework/Common", // 项目根目录
+        "-I${workspaceFolder}/Framework/GeomMath",
+        "-I${workspaceFolder}/Framework/Parser",
+        "-I${workspaceFolder}/Framework/GeomMath/include",
+        "-I${workspaceFolder}/External/Windows/include",
+        "-I${workspaceFolder}/External/Windows/include/crossguid",
+        "-I${workspaceFolder}/External/Windows/include/libpng16",
         "-I${workspaceFolder}/Platform/Windows",
         "-I${workspaceFolder}/Platform/Linux",
-        "-I${workspaceFolder}/RHI",
-        "-I${workspaceFolder}/External/GL/include",
+        "-I${workspaceFolder}/RHI"
         // // VC_includePath
         // "-ID:/Visual_Studio_IDE/VC/Tools/MSVC/14.33.31629/include",
         // "-ID:/Visual_Studio_IDE/VC/Tools/MSVC/14.33.31629/atlmfc/include",
@@ -153,6 +158,8 @@
         "return": ""
     }
 }
+
+
 // C_cpp_prop file back up
 // {
 //     "configurations": [

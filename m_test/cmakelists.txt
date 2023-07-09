@@ -1,72 +1,17 @@
-project(Ispc_tutorial)
+add_executable(AssetLoaderTest AssetLoaderTest.cpp)
+target_link_libraries(AssetLoaderTest Common)
+add_test(NAME TEST_AssetLoader COMMAND AssetLoaderTest)
 
-MESSAGE("RUNNING TEST CMAKE FILE......." )
-# set make parm
-IF(${WIN32})
-        SET(ispcTest_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/ispcTest.lib)
-        SET(ISPC_COMPILER ispc.exe)
-        # SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/External/ispc/Release/)
-        if($ENV{VSCMD_ARG_TGT_ARCH} MATCHES "x64")
-                MESSAGE("[DEBUG] Using x64 as .o and .lib generater." )
-            SET(ISPC_OPTIONS --arch=x86-64)
-            SET(LIBRARIAN_COMMAND lib /MACHINE:X64 /OUT:${ispcTest_LIB_FILE})
-        else()
-                MESSAGE("[DEBUG] Using x86 as .o and .lib generater." )
-            SET(ISPC_OPTIONS --arch=x86)
-            SET(LIBRARIAN_COMMAND lib /MACHINE:X86 /OUT:${ispcTest_LIB_FILE})
-        endif()
-ELSE()
-        SET(ispcTest_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/libispcTest.a)
-        SET(ISPC_COMPILER ispc)
-        # SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/External/ispc/)
-        SET(ISPC_OPTIONS --arch=x86-64)
-        SET(LIBRARIAN_COMMAND ar -crv -o ${ispcTest_LIB_FILE})
-ENDIF(${WIN32})
+# add_executable(GeomMathTest GeomMathTest.cpp)
+# target_link_libraries(GeomMathTest GeomMath)
+# add_test(NAME Test_GeomMath COMMAND GeomMathTest)
 
-# head file that auto-generated in this dir
-SET(ispcTest_LIB_HEADER_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_executable(OgexParserTest OgexParserTest.cpp)
+target_link_libraries(OgexParserTest Common ${OPENGEX_LIBRARY} ${OPENDDL_LIBRARY} ${XG_LIBRARY})
+__add_xg_platform_dependencies(OgexParserTest)
+add_test(NAME TEST_OgexParser COMMAND OgexParserTest)
 
-set(FUNCTIONS CrossProduct DotProduct MulByElement Transpose Normalize
-              Transform AddByElement SubByElement mandelbrot_ispc
-        )
-
-foreach(FUNC IN LISTS FUNCTIONS)
-    add_custom_command(OUTPUT ${FUNC}.o
-        # COMMAND ${CMAKE_COMMAND} -E env "PATH=${ISPC_COMPILER_PATH}" 
-        COMMAND ispc.exe ${ISPC_OPTIONS} --target=host -o ${FUNC}.o -I${CMAKE_CURRENT_SOURCE_DIR} -h ${ispcTest_LIB_HEADER_FOLDER}/${FUNC}.h ${CMAKE_CURRENT_SOURCE_DIR}/ispc/${FUNC}.ispc
-        MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/ispc/${FUNC}.ispc
-        COMMENT "Building ${FUNC}"
-        )
-
-    list(APPEND OBJECTS ${FUNC}.o)
-
-endforeach(FUNC)
-
-add_custom_command(OUTPUT ${ispcTest_LIB_FILE}
-        COMMAND ${LIBRARIAN_COMMAND} ${OBJECTS}
-        # COMMAND del -v ${OBJECTS}
-        DEPENDS ${OBJECTS}
-        )
-
-add_custom_target(ISPC_T
-                   DEPENDS ${ispcTest_LIB_FILE}
-)
-
-# add the outside lib into our project and let it depend on ISPC_T, is this mean two of them are depend on each other now?
-add_library(ispcTest STATIC IMPORTED GLOBAL)
-add_dependencies(ispcTest ISPC_T)
-
-# more details of target that we added
-set_target_properties(ispcTest
-        PROPERTIES
-        IMPORTED_LOCATION ${ispcTest_LIB_FILE}
-        INTERFACE_INCLUDE_DIRECTORIES ${ispcTest_LIB_HEADER_FOLDER}
-        )
-
-MESSAGE("RUN OVER." )
-
-# after the script above, we created an lib target that related with ispcLib, then we could make an exe link to it and call our ispc func
-add_executable(m_test ispcTest.cpp)
-target_link_libraries(m_test ispcTest)
-
-
+add_executable(SceneObjectTest SceneObjectTest.cpp)
+target_link_libraries(SceneObjectTest Common ${XG_LIBRARY})
+__add_xg_platform_dependencies(SceneObjectTest)
+add_test(NAME TEST_SceneObject COMMAND SceneObjectTest)
