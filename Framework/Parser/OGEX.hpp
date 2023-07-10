@@ -401,7 +401,6 @@ class OgexParser : implements SceneParser {
         std::unique_ptr<BaseSceneNode> root_node(
             new BaseSceneNode("scene_root"));
         OGEX::OpenGexDataDescription openGexDataDescription;
-
         ODDL::DataResult result =
             openGexDataDescription.ProcessText(buf.c_str());
         if (result == ODDL::kDataOkay) {
