@@ -49,3 +49,10 @@ build*/
 **/Release
 **/lib
 **/lib64
+
+External/src/glad/include/glad/glad.h
+External/src/glad/include/glad/glad_glx.h
+External/src/glad/include/glad/glad_wgl.h
+External/src/glad/src/glad.c
+External/src/glad/src/glad_glx.c
+External/src/glad/src/glad_wgl.c
