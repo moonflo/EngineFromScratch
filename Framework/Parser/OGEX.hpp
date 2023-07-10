@@ -3,7 +3,6 @@
 #include "SceneParser.hpp"
 #include "portable.hpp"
 
-
 namespace My {
 class OgexParser : implements SceneParser {
    private:
@@ -14,6 +13,7 @@ class OgexParser : implements SceneParser {
     void ConvertOddlStructureToSceneNode(
         const ODDL::Structure& structure,
         std::unique_ptr<BaseSceneNode>& base_node) {
+
         std::unique_ptr<BaseSceneNode> node;
 
         switch (structure.GetStructureType()) {
@@ -387,6 +387,7 @@ class OgexParser : implements SceneParser {
             ConvertOddlStructureToSceneNode(*sub_structure, node);
 
             sub_structure = sub_structure->Next();
+            std::cout << "call once\n";
         }
 
         base_node->AppendChild(std::move(node));
@@ -404,13 +405,21 @@ class OgexParser : implements SceneParser {
         ODDL::DataResult result =
             openGexDataDescription.ProcessText(buf.c_str());
         if (result == ODDL::kDataOkay) {
+            std::cout << "[INFO]ogx data process sucessfully.\n";
             const ODDL::Structure* structure =
                 openGexDataDescription.GetRootStructure()->GetFirstSubnode();
             while (structure) {
+                std::cout << "[INFO]structure is not nullptr\n";
                 ConvertOddlStructureToSceneNode(*structure, root_node);
 
                 structure = structure->Next();
             }
+            if (!structure) {
+                std::cout << "[ERROR]structure is nullptr\n";
+            }
+        } else {
+            std::cout << "[ERROR]ogx data process failed with result code: "
+                      << result << std::endl;
         }
 
         return std::move(root_node);

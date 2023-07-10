@@ -41,15 +41,15 @@ class BaseSceneNode {
         out << std::string(indent, ' ') << "Name: " << node.m_strName
             << std::endl;
         node.dump(out);
-        out << std::endl;
+        //out << std::endl;
 
         for (const std::unique_ptr<BaseSceneNode>& sub_node : node.m_Children) {
-            out << *sub_node << std::endl;
+            out << *sub_node;
         }
 
         for (const std::unique_ptr<SceneObjectTransform>& sub_node :
              node.m_Transforms) {
-            out << *sub_node << std::endl;
+            out << *sub_node;
         }
 
         indent--;

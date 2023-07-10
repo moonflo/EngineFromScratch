@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 #include <string>
 #include "AssetLoader.hpp"
 #include "MemoryManager.hpp"
@@ -8,17 +9,17 @@ using namespace My;
 using namespace std;
 
 namespace My {
-    MemoryManager* g_pMemoryManager = new MemoryManager();
+MemoryManager* g_pMemoryManager = new MemoryManager();
 }
 
-int main(int , char** )
-{
+int main(int, char**) {
     g_pMemoryManager->Initialize();
 
     AssetLoader asset_loader;
-    string ogex_text = asset_loader.SyncOpenAndReadTextFileToString("Scene/Example.ogex");
+    string ogex_text =
+        asset_loader.SyncOpenAndReadTextFileToString("Scene/Example.ogex");
 
-    OgexParser* ogex_parser = new OgexParser ();
+    OgexParser* ogex_parser = new OgexParser();
     unique_ptr<BaseSceneNode> root_node = ogex_parser->Parse(ogex_text);
     delete ogex_parser;
 
@@ -30,4 +31,3 @@ int main(int , char** )
 
     return 0;
 }
-
