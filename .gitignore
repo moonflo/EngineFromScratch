@@ -57,3 +57,11 @@ build*/
 /External/src/glad/src/glad.c
 /External/src/glad/src/glad_glx.c
 /External/src/glad/src/glad_wgl.c
+Framework/GeomMath/include/AddByElement.h
+Framework/GeomMath/include/CrossProduct.h
+Framework/GeomMath/include/DotProduct.h
+Framework/GeomMath/include/MulByElement.h
+Framework/GeomMath/include/Normalize.h
+Framework/GeomMath/include/SubByElement.h
+Framework/GeomMath/include/Transform.h
+Framework/GeomMath/include/Transpose.h
