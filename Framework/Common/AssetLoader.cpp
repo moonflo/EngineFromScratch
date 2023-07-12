@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-07 12:12:03
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-08 21:38:07
+ * @LastEditTime: 2023-07-10 21:35:50
  * @FilePath: \EngineFromScratch\Framework\Common\AssetLoader.cpp
  * @Description: 
  * 
@@ -10,10 +10,15 @@
  */
 #include "AssetLoader.hpp"
 #include <stdio.h>
+#include <iostream>
 
-int My::AssetLoader::Initialize() { return 0; }
+int My::AssetLoader::Initialize() {
+    return 0;
+}
 
-void My::AssetLoader::Finalize() { m_strSearchPath.clear(); }
+void My::AssetLoader::Finalize() {
+    m_strSearchPath.clear();
+}
 
 void My::AssetLoader::Tick() {}
 
@@ -21,7 +26,8 @@ bool My::AssetLoader::AddSearchPath(const char* path) {
     std::vector<std::string>::iterator src = m_strSearchPath.begin();
 
     while (src != m_strSearchPath.end()) {
-        if (!(*src).compare(path)) return true;
+        if (!(*src).compare(path))
+            return true;
         src++;
     }
 
@@ -84,7 +90,8 @@ My::AssetLoader::AssetFilePtr My::AssetLoader::OpenFile(const char* name,
                     break;
             }
 
-            if (fp) return (AssetFilePtr)fp;
+            if (fp)
+                return (AssetFilePtr)fp;
         }
 
         upPath.append("../");
@@ -94,16 +101,15 @@ My::AssetLoader::AssetFilePtr My::AssetLoader::OpenFile(const char* name,
 }
 
 My::Buffer My::AssetLoader::SyncOpenAndReadText(const char* filePath) {
-    AssetFilePtr fp = OpenFile(filePath, MY_OPEN_TEXT);
+    AssetFilePtr fp = OpenFile(filePath, MY_OPEN_BINARY);
     Buffer* pBuff = nullptr;
 
     if (fp) {
         size_t length = GetSize(fp);
-
+        size_t oriLen = length;
         pBuff = new Buffer(length + 1);
         fread(pBuff->m_pData, length, 1, static_cast<FILE*>(fp));
         pBuff->m_pData[length] = '\0';
-
         CloseFile(fp);
     } else {
         fprintf(stderr, "Error opening file '%s'\n", filePath);

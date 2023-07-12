@@ -12,7 +12,6 @@
 #include "include/Transform.h"
 #include "include/Transpose.h"
 
-
 #ifndef PI
 #define PI 3.14159265358979323846f
 #endif
@@ -170,7 +169,7 @@ std::ostream& operator<<(std::ostream& out, TT<T> vector) {
     for (uint32_t i = 0; i < countof(vector.data); i++) {
         out << vector.data[i] << ((i == countof(vector.data) - 1) ? ' ' : ',');
     }
-    out << ")\n";
+    out << ")";
 
     return out;
 }

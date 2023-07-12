@@ -7,3 +7,4 @@ ispc --arch=x86-64 -o Transform.o -I ./ -h ./include/Transform.h ./ispc/Transfor
 ispc --arch=x86-64 -o AddByElement.o -I ./ -h ./include/AddByElement.h ./ispc/AddByElement.ispc
 ispc --arch=x86-64 -o SubByElement.o -I ./ -h ./include/SubByElement.h ./ispc/SubByElement.ispc
 del "*.o"
+pause

@@ -1,18 +1,18 @@
-[submodule "External/src/opengex"]
-	path = External/src/opengex
-	url = https://github.com/moonflo/OpenGEX
 [submodule "External/src/zlib"]
 	path = External/src/zlib
 	url = https://github.com/moonflo/zlib
 [submodule "External/src/ispc"]
 	path = External/src/ispc
 	url = https://github.com/moonflo/ispc
-[submodule "External/src/corssguid"]
-	path = External/src/crossguid
-	url = https://github.com/moonflo/crossguid
 [submodule "External/src/libpng"]
 	path = External/src/libpng
 	url = https://github.com/moonflo/libpng
 [submodule "External/src/crossguid"]
 	path = External/src/crossguid
 	url = https://github.com/moonflo/crossguid
+[submodule "External/src/opengex-3"]
+	path = External/src/opengex-3
+	url = https://github.com/moonflo/OpenGEX-3
+[submodule "External/src/opengex"]
+	path = External/src/opengex
+	url = https://github.com/moonflo/OpenGEX
