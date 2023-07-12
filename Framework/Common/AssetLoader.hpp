@@ -1,3 +1,13 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-10 11:48:42
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-12 15:31:43
+ * @FilePath: \EngineFromScratch\Framework\Common\AssetLoader.hpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
 
 #include <cstdio>
@@ -65,4 +75,6 @@ class AssetLoader : public IRuntimeModule {
    private:
     std::vector<std::string> m_strSearchPath;
 };
+
+extern AssetLoader* g_pAssetLoader;
 }  // namespace My

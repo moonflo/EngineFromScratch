@@ -196,7 +196,6 @@ template <template <typename> class TT, typename T>
 TT<T> operator-(const TT<T>& vec1, const TT<T>& vec2) {
     TT<T> result;
     VectorSub(result, vec1, vec2);
-
     return result;
 }
 
@@ -336,8 +335,10 @@ inline void MatrixRotationYawPitchRoll(Matrix4X4f& matrix, const float yaw,
     Matrix4X4f tmp = {
         {{{(cRoll * cYaw) + (sRoll * sPitch * sYaw), (sRoll * cPitch),
            (cRoll * -sYaw) + (sRoll * sPitch * cYaw), 0.0f},
+
           {(-sRoll * cYaw) + (cRoll * sPitch * sYaw), (cRoll * cPitch),
            (sRoll * sYaw) + (cRoll * sPitch * cYaw), 0.0f},
+
           {(cPitch * sYaw), -sPitch, (cPitch * cYaw), 0.0f},
           {0.0f, 0.0f, 0.0f, 1.0f}}}};
 
@@ -358,10 +359,11 @@ inline void Transform(Vector4f& vector, const Matrix4X4f& matrix) {
 
 inline void BuildViewMatrix(Matrix4X4f& result, const Vector3f position,
                             const Vector3f lookAt, const Vector3f up) {
-    Vector3f zAxis, xAxis, yAxis;
+    Vector3f zAxis(0), xAxis(0), yAxis(0);
     float result1, result2, result3;
 
     zAxis = lookAt - position;
+
     Normalize(zAxis);
 
     CrossProduct(xAxis, up, zAxis);
