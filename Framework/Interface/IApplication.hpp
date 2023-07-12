@@ -14,4 +14,6 @@ Interface IApplication : implements IRuntimeModule {
     virtual bool IsQuit() = 0;
     virtual GfxConfiguration& GetConfiguration() = 0;
 };
+
+extern IApplication* g_pApp;
 }  // namespace My

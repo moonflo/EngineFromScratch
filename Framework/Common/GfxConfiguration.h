@@ -1,16 +1,15 @@
 /*
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-06-28 17:52:20
+ * @Date: 2023-07-10 11:48:42
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-06-28 18:11:01
+ * @LastEditTime: 2023-07-12 20:30:48
  * @FilePath: \EngineFromScratch\Framework\Common\GfxConfiguration.h
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 #pragma once
-#include <cstdint>
-#include <cwchar>
+#include <stdint.h>
 #include <iostream>
 
 namespace My {
@@ -52,8 +51,8 @@ struct GfxConfiguration {
     uint32_t screenHeight;
     const char* appName;
 
-    friend std::wostream& operator<<(std::wostream& out,
-                                     const GfxConfiguration& conf) {
+    friend std::ostream& operator<<(std::ostream& out,
+                                    const GfxConfiguration& conf) {
         out << "App Name:" << conf.appName << std::endl;
         out << "GfxConfiguration:"
             << " R:" << conf.redBits << " G:" << conf.greenBits

@@ -1,31 +1,20 @@
-// include the basic windows header file
 #include "WindowsApplication.hpp"
 #include <tchar.h>
 
 using namespace My;
 
-/**
- * @description: create a windows and read the platform params
- * @return {int} BaseApp initialize state
- */
 int My::WindowsApplication::Initialize() {
     int result;
 
+    // first call base class initialization
     result = BaseApplication::Initialize();
 
-    if (result != 0) {
-        printf("[ERROR] WindowsApp: BaseApplication initialize failed.\n");
+    if (result != 0)
         exit(result);
-    } else {
-        printf("[INFO] WindowsApp: BaseApplication initialize sucessfully.\n");
-    }
 
-    // get the HINSTANCE of the Console Program, a windows API to aquire the
-    // handle of current exe
+    // get the HINSTANCE of the Console Program
     HINSTANCE hInstance = GetModuleHandle(NULL);
 
-    // the handle for the window, filled by a function
-    HWND hWnd;
     // this struct holds information for the window class
     WNDCLASSEX wc;
 
@@ -34,20 +23,10 @@ int My::WindowsApplication::Initialize() {
 
     // fill in the struct with the needed information
     wc.cbSize = sizeof(WNDCLASSEX);
-
-    // Redraw in horizon and vertical direction
     wc.style = CS_HREDRAW | CS_VREDRAW;
-
-    // Specfiy the callback function for windows messages
     wc.lpfnWndProc = WindowProc;
-
-    // Set exe handle
     wc.hInstance = hInstance;
-
-    // Load a ARROW(Mouse Arrow) and sent it to hCursor
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-
-    // Background brush set to Default while brush
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.lpszClassName = _T("GameEngineFromScratch");
 
@@ -55,7 +34,7 @@ int My::WindowsApplication::Initialize() {
     RegisterClassEx(&wc);
 
     // create the window and use the result as the handle
-    hWnd =
+    m_hWnd =
         CreateWindowEx(0,
                        _T("GameEngineFromScratch"),  // name of the window class
                        m_Config.appName,             // title of the window
@@ -67,23 +46,16 @@ int My::WindowsApplication::Initialize() {
                        NULL,       // we have no parent window, NULL
                        NULL,       // we aren't using menus, NULL
                        hInstance,  // application handle
-                       NULL);      // used with multiple windows, NULL
+                       this);      // pass pointer to current object
 
     // display the window on the screen
-    ShowWindow(hWnd, SW_SHOW);
-
-    m_hWnd = hWnd;
+    ShowWindow(m_hWnd, SW_SHOW);
 
     return result;
 }
 
 void My::WindowsApplication::Finalize() {}
 
-/**
- * @description: Get any Windows messages and send them to WindowsProcedure
- * Function
- * @return {*}
- */
 void My::WindowsApplication::Tick() {
     // this struct holds Windows event messages
     MSG msg;
@@ -100,29 +72,38 @@ void My::WindowsApplication::Tick() {
     }
 }
 
-/**
- * @description: this is the main message handler for the program
- * @param {HWND} hWnd
- * @param {UINT} message
- * @param {WPARAM} wParam
- * @param {LPARAM} lParam
- * @return {*}
- */
+// this is the main message handler for the program
 LRESULT CALLBACK My::WindowsApplication::WindowProc(HWND hWnd, UINT message,
                                                     WPARAM wParam,
                                                     LPARAM lParam) {
+    WindowsApplication* pThis;
+    if (message == WM_NCCREATE) {
+        pThis = static_cast<WindowsApplication*>(
+            reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
+
+        SetLastError(0);
+        if (!SetWindowLongPtr(hWnd, GWLP_USERDATA,
+                              reinterpret_cast<LONG_PTR>(pThis))) {
+            if (GetLastError() != 0)
+                return FALSE;
+        }
+    } else {
+        pThis = reinterpret_cast<WindowsApplication*>(
+            GetWindowLongPtr(hWnd, GWLP_USERDATA));
+    }
+
     // sort through and find what code to run for the message given
     switch (message) {
-        case WM_PAINT:
-            // we will replace this part with Rendering Module
-            {}
-            break;
+        case WM_KEYDOWN: {
+            // we will replace this with input manager
+            m_bQuit = true;
+        } break;
 
             // this message is read when the window is closed
         case WM_DESTROY: {
             // close the application entirely
             PostQuitMessage(0);
-            BaseApplication::m_bQuit = true;
+            m_bQuit = true;
             return 0;
         }
     }

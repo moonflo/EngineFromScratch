@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-06-27 16:32:36
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-06-29 10:14:19
+ * @LastEditTime: 2023-07-12 15:29:11
  * @FilePath: \EngineFromScratch\Framework\Common\GraphicsManager.hpp
  * @Description:
  *
@@ -10,6 +10,8 @@
  */
 #pragma once
 #include "IRuntimeModule.hpp"
+#include "Image.hpp"
+
 
 namespace My {
 class GraphicsManager : implements IRuntimeModule {
@@ -20,5 +22,10 @@ class GraphicsManager : implements IRuntimeModule {
     virtual void Finalize();
 
     virtual void Tick();
+
+    virtual void Clear();
+    virtual void Draw();
 };
+
+extern GraphicsManager* g_pGraphicsManager;
 }  // namespace My
