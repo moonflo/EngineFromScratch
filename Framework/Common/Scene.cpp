@@ -2,13 +2,13 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-12 20:01:46
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-13 13:50:55
- * @FilePath: \EngineFromScratch\Framework\Common\SceneParser.cpp
+ * @LastEditTime: 2023-07-15 11:27:12
+ * @FilePath: \EngineFromScratch\Framework\Common\Scene.cpp
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
-#include "SceneParser.hpp"
+#include "Scene.hpp"
 
 using namespace My;
 using namespace std;

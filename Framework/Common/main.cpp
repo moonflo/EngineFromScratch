@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-10 11:48:42
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-12 20:59:52
+ * @LastEditTime: 2023-07-15 09:50:16
  * @FilePath: \EngineFromScratch\Framework\Common\main.cpp
  * @Description: 
  * 
@@ -43,11 +43,12 @@ int main(int argc, char** argv) {
         printf("Scene Manager Initialize failed, will exit now.");
         return ret;
     } else {
-        printf("Scene Manager  Initialize sucessfully.");
+        printf("Scene Manager Initialize sucessfully.");
     }
 
     g_pSceneManager->LoadScene("Scene/cube.ogex");
 
+    // load scene once in here
     if ((ret = g_pGraphicsManager->Initialize()) != 0) {
         printf("Graphics Manager Initialize failed, will exit now.");
         return ret;

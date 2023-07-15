@@ -20,7 +20,8 @@ int main(int, char**) {
         asset_loader.SyncOpenAndReadTextFileToString("Scene/Example.ogex");
 
     OgexParser* ogex_parser = new OgexParser();
-    unique_ptr<BaseSceneNode> root_node = ogex_parser->Parse(ogex_text);
+    shared_ptr<Scene> _scene = ogex_parser->Parse(ogex_text);
+    auto root_node = _scene->SceneGraph;
     delete ogex_parser;
 
     cout << *root_node << endl;
