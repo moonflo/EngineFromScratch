@@ -4,22 +4,21 @@
 #include "SceneParser.hpp"
 #include "portable.hpp"
 
-
 namespace My {
 class OgexParser : implements SceneParser {
    private:
     void ConvertOddlStructureToSceneNode(
         const ODDL::Structure& structure,
-        std::unique_ptr<BaseSceneNode>& base_node, Scene& scene) {
-        std::unique_ptr<BaseSceneNode> node;
+        std::shared_ptr<BaseSceneNode>& base_node, Scene& scene) {
+        std::shared_ptr<BaseSceneNode> node;
 
         switch (structure.GetStructureType()) {
             case OGEX::kStructureNode: {
-                node = std::make_unique<SceneEmptyNode>(
+                node = std::make_shared<SceneEmptyNode>(
                     structure.GetStructureName());
             } break;
             case OGEX::kStructureGeometryNode: {
-                node = std::make_unique<SceneGeometryNode>(
+                node = std::make_shared<SceneGeometryNode>(
                     structure.GetStructureName());
                 const OGEX::GeometryNodeStructure& _structure =
                     dynamic_cast<const OGEX::GeometryNodeStructure&>(structure);
@@ -45,7 +44,7 @@ class OgexParser : implements SceneParser {
                 }
             } break;
             case OGEX::kStructureLightNode: {
-                node = std::make_unique<SceneLightNode>(
+                node = std::make_shared<SceneLightNode>(
                     structure.GetStructureName());
                 const OGEX::LightNodeStructure& _structure =
                     dynamic_cast<const OGEX::LightNodeStructure&>(structure);
@@ -59,7 +58,7 @@ class OgexParser : implements SceneParser {
                 _node.AddSceneObjectRef(_key);
             } break;
             case OGEX::kStructureCameraNode: {
-                node = std::make_unique<SceneCameraNode>(
+                node = std::make_shared<SceneCameraNode>(
                     structure.GetStructureName());
                 const OGEX::CameraNodeStructure& _structure =
                     dynamic_cast<const OGEX::CameraNodeStructure&>(structure);
@@ -309,13 +308,13 @@ class OgexParser : implements SceneParser {
                     dynamic_cast<const OGEX::TransformStructure&>(structure);
                 bool object_flag = _structure.GetObjectFlag();
                 Matrix4X4f matrix;
-                std::unique_ptr<SceneObjectTransform> transform;
+                std::shared_ptr<SceneObjectTransform> transform;
 
                 count = _structure.GetTransformCount();
                 for (index = 0; index < count; index++) {
                     const float* data = _structure.GetTransform(index);
                     matrix = data;
-                    transform = std::make_unique<SceneObjectTransform>(
+                    transform = std::make_shared<SceneObjectTransform>(
                         matrix, object_flag);
                     base_node->AppendChild(std::move(transform));
                 }
@@ -512,8 +511,8 @@ class OgexParser : implements SceneParser {
     OgexParser() = default;
     virtual ~OgexParser() = default;
 
-    virtual std::unique_ptr<Scene> Parse(const std::string& buf) {
-        std::unique_ptr<Scene> pScene(new Scene("OGEX Scene"));
+    virtual std::shared_ptr<Scene> Parse(const std::string& buf) {
+        std::shared_ptr<Scene> pScene(new Scene("OGEX Scene"));
         OGEX::OpenGexDataDescription openGexDataDescription;
 
         ODDL::DataResult result =

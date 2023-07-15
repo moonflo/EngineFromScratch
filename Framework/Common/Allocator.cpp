@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-06-28 10:48:53
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-06-29 10:35:52
+ * @LastEditTime: 2023-07-13 13:54:56
  * @FilePath: \EngineFromScratch\Framework\Common\Allocator.cpp
  * @Description:
  *
@@ -92,6 +92,8 @@ void* My::Allocator::Allocate() {
 
         if (m_pPageList) {
             pNewPage->pNext = m_pPageList;
+        } else {
+            pNewPage->pNext = nullptr;
         }
 
         m_pPageList = pNewPage;
