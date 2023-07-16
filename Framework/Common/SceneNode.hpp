@@ -18,9 +18,7 @@ class BaseSceneNode {
 
    public:
     BaseSceneNode(){};
-    BaseSceneNode(const char* name) { m_strName = name; };
     BaseSceneNode(const std::string& name) { m_strName = name; };
-    BaseSceneNode(const std::string&& name) { m_strName = std::move(name); };
     virtual ~BaseSceneNode(){};
 
     void AppendChild(std::shared_ptr<BaseSceneNode>&& sub_node) {
@@ -29,6 +27,18 @@ class BaseSceneNode {
 
     void AppendChild(std::shared_ptr<SceneObjectTransform>&& transform) {
         m_Transforms.push_back(std::move(transform));
+    }
+
+    const std::shared_ptr<Matrix4X4f> GetCalculatedTransform() const {
+        std::shared_ptr<Matrix4X4f> result(new Matrix4X4f());
+        BuildIdentityMatrix(*result);
+
+        // TODO: cascading calculation
+        for (auto trans : m_Transforms) {
+            *result = *result * static_cast<Matrix4X4f>(*trans);
+        }
+
+        return result;
     }
 
     friend std::ostream& operator<<(std::ostream& out,
@@ -73,6 +83,8 @@ class SceneNode : public BaseSceneNode {
     SceneNode() = default;
 
     void AddSceneObjectRef(const std::string& key) { m_keySceneObject = key; };
+
+    const std::string& GetSceneObjectRef() { return m_keySceneObject; };
 };
 
 typedef BaseSceneNode SceneEmptyNode;

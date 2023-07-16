@@ -1,8 +1,8 @@
 /*
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-10 11:48:42
+ * @Date: 2023-07-15 11:26:56
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-15 18:49:23
+ * @LastEditTime: 2023-07-16 10:25:42
  * @FilePath: \EngineFromScratch\Framework\Common\scene.hpp
  * @Description: 
  * 
@@ -12,18 +12,21 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include "Interface.hpp"
-#include "SceneNode.hpp"
 #include "SceneObject.hpp"
+#include "SceneNode.hpp"
 
 namespace My {
 class Scene {
    public:
-    Scene(const char* scene_name) : SceneGraph(new BaseSceneNode(scene_name)) {}
-    ~Scene() = default;
-
-   public:
     std::shared_ptr<BaseSceneNode> SceneGraph;
+
+    std::unordered_multimap<std::string, std::shared_ptr<SceneCameraNode>>
+        CameraNodes;
+    std::unordered_multimap<std::string, std::shared_ptr<SceneLightNode>>
+        LightNodes;
+    std::unordered_multimap<std::string, std::shared_ptr<SceneGeometryNode>>
+        GeometryNodes;
+
     std::unordered_map<std::string, std::shared_ptr<SceneObjectCamera>> Cameras;
     std::unordered_map<std::string, std::shared_ptr<SceneObjectLight>> Lights;
     std::unordered_map<std::string, std::shared_ptr<SceneObjectMaterial>>
@@ -31,22 +34,29 @@ class Scene {
     std::unordered_map<std::string, std::shared_ptr<SceneObjectGeometry>>
         Geometries;
 
-    const std::shared_ptr<SceneObjectCamera> GetCamera(std::string key) const;
-    const std::shared_ptr<SceneObjectCamera> GetFirstCamera() const;
-    const std::shared_ptr<SceneObjectCamera> GetNextCamera() const;
+   public:
+    Scene(const std::string& scene_name)
+        : SceneGraph(new BaseSceneNode(scene_name)) {}
+    ~Scene() = default;
 
-    const std::shared_ptr<SceneObjectLight> GetLight(std::string key) const;
-    const std::shared_ptr<SceneObjectLight> GetFirstLight() const;
-    const std::shared_ptr<SceneObjectLight> GetNextLight() const;
+    const std::shared_ptr<SceneObjectCamera> GetCamera(
+        const std::string& key) const;
+    const std::shared_ptr<SceneCameraNode> GetFirstCameraNode() const;
+    const std::shared_ptr<SceneCameraNode> GetNextCameraNode() const;
 
-    const std::shared_ptr<SceneObjectMaterial> GetMaterial(
-        std::string key) const;
-    const std::shared_ptr<SceneObjectMaterial> GetFirstMaterial() const;
-    const std::shared_ptr<SceneObjectMaterial> GetNextMaterial() const;
+    const std::shared_ptr<SceneObjectLight> GetLight(
+        const std::string& key) const;
+    const std::shared_ptr<SceneLightNode> GetFirstLightNode() const;
+    const std::shared_ptr<SceneLightNode> GetNextLightNode() const;
 
     const std::shared_ptr<SceneObjectGeometry> GetGeometry(
-        std::string key) const;
-    const std::shared_ptr<SceneObjectGeometry> GetFirstGeometry() const;
-    const std::shared_ptr<SceneObjectGeometry> GetNextGeometry() const;
+        const std::string& key) const;
+    const std::shared_ptr<SceneGeometryNode> GetFirstGeometryNode() const;
+    const std::shared_ptr<SceneGeometryNode> GetNextGeometryNode() const;
+
+    const std::shared_ptr<SceneObjectMaterial> GetMaterial(
+        const std::string& key) const;
+    const std::shared_ptr<SceneObjectMaterial> GetFirstMaterial() const;
+    const std::shared_ptr<SceneObjectMaterial> GetNextMaterial() const;
 };
 }  // namespace My

@@ -1,19 +1,20 @@
 /*
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-10 11:48:42
+ * @Date: 2023-07-13 22:32:28
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-15 09:50:16
+ * @LastEditTime: 2023-07-16 10:59:37
  * @FilePath: \EngineFromScratch\Framework\Common\main.cpp
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
-#include <chrono>
 #include <cstdio>
+#include <chrono>
 #include <thread>
 #include "BaseApplication.hpp"
 
 using namespace My;
+using namespace std;
 
 int main(int argc, char** argv) {
     int ret;
@@ -21,39 +22,36 @@ int main(int argc, char** argv) {
     if ((ret = g_pApp->Initialize()) != 0) {
         printf("App Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("App Initialize sucessfully.");
     }
 
     if ((ret = g_pMemoryManager->Initialize()) != 0) {
         printf("Memory Manager Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("Memory Manager Initialize sucessfully.");
     }
 
     if ((ret = g_pAssetLoader->Initialize()) != 0) {
         printf("Asset Loader Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("Asset Loader Initialize sucessfully.");
     }
 
     if ((ret = g_pSceneManager->Initialize()) != 0) {
         printf("Scene Manager Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("Scene Manager Initialize sucessfully.");
     }
 
-    g_pSceneManager->LoadScene("Scene/cube.ogex");
+    string scene_file_name = "Scene/cube.ogex";
+    if (argc > 1) {
+        scene_file_name = argv[1];
+    }
 
-    // load scene once in here
+    if ((ret = g_pSceneManager->LoadScene(scene_file_name.c_str())) != 0) {
+        printf("Unable to load scene: %s\n", scene_file_name.c_str());
+        return ret;
+    }
+
     if ((ret = g_pGraphicsManager->Initialize()) != 0) {
         printf("Graphics Manager Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("GraphicsInitialize sucessfully.");
     }
 
     while (!g_pApp->IsQuit()) {

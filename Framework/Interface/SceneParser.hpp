@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-10 11:48:42
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-15 14:08:22
+ * @LastEditTime: 2023-07-16 10:47:54
  * @FilePath: \EngineFromScratch\Framework\Interface\SceneParser.hpp
  * @Description: 
  * 
@@ -10,10 +10,12 @@
  */
 #pragma once
 #include "Scene.hpp"
+#include "Interface.hpp"
+
 
 namespace My {
 Interface SceneParser {
    public:
-    virtual std::shared_ptr<Scene> Parse(const std::string& buf) = 0;
+    virtual std::unique_ptr<Scene> Parse(const std::string& buf) = 0;
 };
 }  // namespace My

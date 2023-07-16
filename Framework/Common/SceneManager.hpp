@@ -23,12 +23,11 @@ class SceneManager : implements IRuntimeModule {
 
     virtual void Tick();
 
-    void LoadScene(const char* scene_file_name);
+    int LoadScene(const char* scene_file_name);
 
     const Scene& GetSceneForRendering();
 
-   protected:
-    void LoadOgexScene(const char* ogex_scene_file_name);
+    int LoadOgexScene(const char* ogex_scene_file_name);
 
    protected:
     std::shared_ptr<Scene> m_pScene;
