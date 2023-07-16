@@ -32,12 +32,13 @@ uniform mat4 projectionMatrix;
 ////////////////////////////////////////////////////////////////////////////////
 void main(void)
 {
-    mat4 transformMatrix = worldMatrix * modelMatrix;
+	mat4 transformMatrix=worldMatrix*modelMatrix;
 	// Calculate the position of the vertex against the world, view, and projection matrices.
-	v = transformMatrix * vec4(inputPosition, 1.0f);
-	v = viewMatrix * v;
-	gl_Position = projectionMatrix * v;
-
-    normal = transformMatrix * vec4(inputNormal, 0.0f);
-    normal = viewMatrix * normal;
+	v=transformMatrix*vec4(inputPosition,1.f);
+	v=viewMatrix*v;
+	gl_Position=projectionMatrix*v;
+	
+	normal=transformMatrix*vec4(inputNormal,0.f);
+	normal=viewMatrix*normal;
 }
+

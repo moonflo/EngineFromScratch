@@ -4,23 +4,21 @@
 #include "shader_base.h"
 
 namespace My {
-    struct BasicVertex
-    {
-        Vector3f m_Position;
-        Vector3f m_Normal;
-        Vector4f m_Tangent;
-        Vector2f m_TextureUV;
-    };
+struct BasicVertex {
+    Vector3f m_Position;
+    Vector3f m_Normal;
+    Vector4f m_Tangent;
+    Vector2f m_TextureUV;
+};
 
-    unistruct Constants
-    {
-        Matrix4X4f       m_modelView;
-        Matrix4X4f       m_modelViewProjection;
-        Vector4f         m_lightPosition;
-        Vector4f         m_lightColor;
-        Vector4f         m_ambientColor;
-        Vector4f         m_lightAttenuation;
-    };
-}
+unistruct Constants {
+    Matrix4X4f m_modelView;
+    Matrix4X4f m_modelViewProjection;
+    Vector4f m_lightPosition;
+    Vector4f m_lightColor;
+    Vector4f m_ambientColor;
+    Vector4f m_lightAttenuation;
+};
+}  // namespace My
 
-#endif // !__STDCBUFFER_H__
+#endif  // !__STDCBUFFER_H__

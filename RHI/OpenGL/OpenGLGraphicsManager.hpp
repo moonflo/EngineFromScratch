@@ -1,13 +1,3 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-13 22:32:28
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-16 11:23:01
- * @FilePath: \EngineFromScratch\RHI\OpenGL\OpenGLGraphicsManager.hpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
 #pragma once
 #include "GraphicsManager.hpp"
 #include "geommath.hpp"
@@ -34,6 +24,9 @@ class OpenGLGraphicsManager : public GraphicsManager {
     bool SetPerFrameShaderParameters();
 
     void InitializeBuffers();
+
+    void InitializeBuffers_multiDraw();
+
     void RenderBuffers();
     void CalculateCameraMatrix();
     void CalculateLights();
@@ -56,6 +49,7 @@ class OpenGLGraphicsManager : public GraphicsManager {
         GLuint vao;
         GLenum mode;
         GLenum type;
+        GLsizei count;
         std::vector<GLsizei> counts;
         std::shared_ptr<Matrix4X4f> transform;
     };

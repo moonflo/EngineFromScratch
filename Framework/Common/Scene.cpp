@@ -1,13 +1,3 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-13 22:32:28
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-16 10:46:16
- * @FilePath: \EngineFromScratch\Framework\Common\Scene.cpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
 #include "Scene.hpp"
 
 using namespace My;

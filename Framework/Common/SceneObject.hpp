@@ -312,6 +312,7 @@ class SceneObjectMesh : public BaseSceneObject {
     size_t GetIndexCount(const size_t index) const {
         return (m_IndexArray.empty() ? 0 : m_IndexArray[index].GetIndexCount());
     };
+
     size_t GetVertexCount() const {
         return (m_VertexArray.empty() ? 0 : m_VertexArray[0].GetVertexCount());
     };
@@ -559,14 +560,6 @@ class SceneObjectSpotLight : public SceneObjectLight {
 
     friend std::ostream& operator<<(std::ostream& out,
                                     const SceneObjectSpotLight& obj);
-};
-
-class SceneObjectInfiniteLight : public SceneObjectLight {
-   public:
-    using SceneObjectLight::SceneObjectLight;
-
-    friend std::ostream& operator<<(std::ostream& out,
-                                    const SceneObjectInfiniteLight& obj);
 };
 
 class SceneObjectCamera : public BaseSceneObject {

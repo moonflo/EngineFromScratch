@@ -1,13 +1,3 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-13 22:32:28
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-16 11:24:48
- * @FilePath: \EngineFromScratch\Platform\Windows\WindowsApplication.cpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
 #include "WindowsApplication.hpp"
 #include <tchar.h>
 

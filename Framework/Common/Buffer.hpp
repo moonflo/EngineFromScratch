@@ -1,13 +1,3 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-07 12:17:10
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-07 13:49:52
- * @FilePath: \EngineFromScratch\Framework\Common\Buffer.hpp
- * @Description: Buffer is just a wrapped allocated space object
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
 #pragma once
 #include <memory.h>
 #include <stddef.h>
@@ -35,7 +25,6 @@ class Buffer {
         m_szAlignment = rhs.m_szAlignment;
     }
 
-    // rvaule move constructor, need set lvaule's pData=nullptr, make sure only free a pointer once
     Buffer(Buffer&& rhs) {
         m_pData = rhs.m_pData;
         m_szSize = rhs.m_szSize;
@@ -49,7 +38,8 @@ class Buffer {
         if (m_szSize >= rhs.m_szSize && m_szAlignment == rhs.m_szAlignment) {
             memcpy(m_pData, rhs.m_pData, rhs.m_szSize);
         } else {
-            if (m_pData) g_pMemoryManager->Free(m_pData, m_szSize);
+            if (m_pData)
+                g_pMemoryManager->Free(m_pData, m_szSize);
             m_pData = reinterpret_cast<uint8_t*>(
                 g_pMemoryManager->Allocate(rhs.m_szSize, rhs.m_szAlignment));
             memcpy(m_pData, rhs.m_pData, rhs.m_szSize);
@@ -60,7 +50,8 @@ class Buffer {
     }
 
     Buffer& operator=(Buffer&& rhs) {
-        if (m_pData) g_pMemoryManager->Free(m_pData, m_szSize);
+        if (m_pData)
+            g_pMemoryManager->Free(m_pData, m_szSize);
         m_pData = rhs.m_pData;
         m_szSize = rhs.m_szSize;
         m_szAlignment = rhs.m_szAlignment;
@@ -71,7 +62,8 @@ class Buffer {
     }
 
     ~Buffer() {
-        if (m_pData) g_pMemoryManager->Free(m_pData, m_szSize);
+        if (m_pData)
+            g_pMemoryManager->Free(m_pData, m_szSize);
         m_pData = nullptr;
     }
 

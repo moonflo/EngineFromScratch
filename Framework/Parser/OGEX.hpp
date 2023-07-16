@@ -408,7 +408,8 @@ class OgexParser : implements SceneParser {
                 std::shared_ptr<SceneObjectLight> light;
 
                 if (!strncmp(_type_str, "infinite", 8)) {
-                    light = std::make_shared<SceneObjectInfiniteLight>();
+                    // ToDo: implement this
+                    return;
                 } else if (!strncmp(_type_str, "point", 5)) {
                     light = std::make_shared<SceneObjectOmniLight>();
                 } else if (!strncmp(_type_str, "spot", 5)) {

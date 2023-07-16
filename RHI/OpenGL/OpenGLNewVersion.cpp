@@ -184,12 +184,18 @@ bool OpenGLGraphicsManager::SetPerFrameShaderParameters() {
     }
     glUniformMatrix4fv(location, 1, false, m_DrawFrameContext.m_worldMatrix);
 
+    std::cout << "\n[INFO] Setting worldMatrix:\n"
+              << m_DrawFrameContext.m_worldMatrix;
+
     // Set the view matrix in the vertex shader.
     location = glGetUniformLocation(m_shaderProgram, "viewMatrix");
     if (location == -1) {
         return false;
     }
     glUniformMatrix4fv(location, 1, false, m_DrawFrameContext.m_viewMatrix);
+
+    std::cout << "\n[INFO] Setting viewMatrix:\n"
+              << m_DrawFrameContext.m_viewMatrix;
 
     // Set the projection matrix in the vertex shader.
     location = glGetUniformLocation(m_shaderProgram, "projectionMatrix");
@@ -199,6 +205,9 @@ bool OpenGLGraphicsManager::SetPerFrameShaderParameters() {
     glUniformMatrix4fv(location, 1, false,
                        m_DrawFrameContext.m_projectionMatrix);
 
+    std::cout << "\n[INFO] Setting projectionMatrix:\n"
+              << m_DrawFrameContext.m_projectionMatrix;
+
     // Set lighting parameters for PS shader
     location = glGetUniformLocation(m_shaderProgram, "lightPosition");
     if (location == -1) {
@@ -206,11 +215,17 @@ bool OpenGLGraphicsManager::SetPerFrameShaderParameters() {
     }
     glUniform3fv(location, 1, m_DrawFrameContext.m_lightPosition);
 
+    std::cout << "\n[INFO] Setting lightPosition:\n"
+              << m_DrawFrameContext.m_lightPosition;
+
     location = glGetUniformLocation(m_shaderProgram, "lightColor");
     if (location == -1) {
         return false;
     }
     glUniform4fv(location, 1, m_DrawFrameContext.m_lightColor);
+
+    std::cout << "\n[INFO] Setting lightColor:\n"
+              << m_DrawFrameContext.m_lightColor;
 
     return true;
 }
@@ -408,16 +423,18 @@ void OpenGLGraphicsManager::RenderBuffers() {
         // Set the color shader as the current shader program and set the matrices that it will use for rendering.
         glUseProgram(m_shaderProgram);
         SetPerBatchShaderParameters("modelMatrix", *dbc.transform);
+        std::cout << "\n[INFO] Setting modelMatrix:\n" << *dbc.transform;
 
         glBindVertexArray(dbc.vao);
 
-        auto indexBufferCount = dbc.counts.size();
-        const GLvoid** pIndicies = new const GLvoid*[indexBufferCount];
-        memset(pIndicies, 0x00, sizeof(GLvoid*) * indexBufferCount);
-        // Render the vertex buffer using the index buffer.
-        glMultiDrawElements(dbc.mode, dbc.counts.data(), dbc.type, pIndicies,
-                            indexBufferCount);
-        delete[] pIndicies;
+        // auto indexBufferCount = dbc.counts.size();
+        // const GLvoid** pIndicies = new const GLvoid*[indexBufferCount];
+        // memset(pIndicies, 0x00, sizeof(GLvoid*) * indexBufferCount);
+        // // Render the vertex buffer using the index buffer.
+        // glMultiDrawElements(dbc.mode, dbc.counts.data(), dbc.type, pIndicies,
+        //                     indexBufferCount);
+        // delete[] pIndicies;
+        glDrawElements(dbc.mode, dbc.counts[0], dbc.type, 0);
     }
 
     return;
