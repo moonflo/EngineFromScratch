@@ -1,15 +1,5 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-06-28 10:49:02
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-06-28 15:28:48
- * @FilePath: \EngineFromScratch\Framework\Common\Allocator.hpp
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-#include <cstddef>
-#include <cstdint>
+#include <stddef.h>
+#include <stdint.h>
 
 namespace My {
 
@@ -67,12 +57,12 @@ class Allocator {
     size_t m_szPageSize;
     size_t m_szAlignmentSize;
     size_t m_szBlockSize;
-    uint32_t m_nBlocksPerPage;
+    size_t m_nBlocksPerPage;
 
     // statistics
-    uint32_t m_nPages;       // page count
-    uint32_t m_nBlocks;      // Block total count
-    uint32_t m_nFreeBlocks;  // FreeBlock total count
+    size_t m_nPages;
+    size_t m_nBlocks;
+    size_t m_nFreeBlocks;
 
     // disable copy & assignment
     Allocator(const Allocator& clone);

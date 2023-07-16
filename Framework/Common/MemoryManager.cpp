@@ -1,18 +1,5 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-06-28 14:48:24
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-07 15:23:10
- * @FilePath: \EngineFromScratch\Framework\Common\MemoryManager.cpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
-
 #include "MemoryManager.hpp"
-
-extern "C" void* malloc(size_t size);
-extern "C" void free(void* p);
+#include <cstdlib>
 
 #ifndef ALIGN
 #define ALIGN(x, a) (((x) + ((a)-1)) & ~((a)-1))
@@ -43,9 +30,6 @@ static const uint32_t kNumBlockSizes =
 // largest valid block size
 static const uint32_t kMaxBlockSize = kBlockSizes[kNumBlockSizes - 1];
 
-// A static data member in h is not a declare but a defination, which is why
-// LNK2001 show up if we don't add the two scripts below. This's difference with
-// normal member's declare since we do the define early than declaration.
 size_t* MemoryManager::m_pBlockSizeLookup;
 Allocator* MemoryManager::m_pAllocators;
 }  // namespace My
@@ -54,44 +38,34 @@ int My::MemoryManager::Initialize() {
     // one-time initialization
     static bool s_bInitialized = false;
     if (!s_bInitialized) {
-        // initialize block size lookup table, this's a kind of hash map, 'cause
-        // in here we can see that m_pBlockSizeLookup[0] ==
-        // m_pBlockSizeLookup[4] = 0 and m_pBlockSizeLookup[12] = 2,
-        // m_pBlockSizeLookup[8] = 1, anytime when we need a BlockSize = n, we
-        // check the m_pBlockSizeLookup out and we could know the num's idnex in
-        // kBlockSizes group.
+        // initialize block size lookup table
         m_pBlockSizeLookup = new size_t[kMaxBlockSize + 1];
         size_t j = 0;
         for (size_t i = 0; i <= kMaxBlockSize; i++) {
-            if (i > kBlockSizes[j]) ++j;
+            if (i > kBlockSizes[j])
+                ++j;
             m_pBlockSizeLookup[i] = j;
         }
 
-        // initialize the allocators, for now we got 47 allocator and they have
-        // difference block, same pageSize and same Alignment value, all
-        // reserved in m_pAllocators, but not real assign so much address, only
-        // set the param, and wait for allocat to do so.
+        // initialize the allocators
         m_pAllocators = new Allocator[kNumBlockSizes];
         for (size_t i = 0; i < kNumBlockSizes; i++) {
             m_pAllocators[i].Reset(kBlockSizes[i], kPageSize, kAlignment);
         }
+
         s_bInitialized = true;
     }
+
     return 0;
 }
 
 void My::MemoryManager::Finalize() {
-    delete[] m_pAllocators;  // Why don't call allocator's free all?
+    delete[] m_pAllocators;
     delete[] m_pBlockSizeLookup;
 }
 
 void My::MemoryManager::Tick() {}
 
-/**
- * @description: find a allocator that satisfied blocksize require
- * @param {size_t} blockSize
- * @return {Allocator*} allocatorPointer if available, nullptr if not
- */
 Allocator* My::MemoryManager::LookUpAllocator(size_t size) {
     // check eligibility for lookup
     if (size <= kMaxBlockSize)
@@ -129,5 +103,4 @@ void My::MemoryManager::Free(void* p, size_t size) {
         pAlloc->Free(p);
     else
         free(p);
-    
 }

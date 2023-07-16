@@ -1,15 +1,5 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-10 11:48:42
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-15 09:50:16
- * @FilePath: \EngineFromScratch\Framework\Common\main.cpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
-#include <chrono>
 #include <cstdio>
+#include <chrono>
 #include <thread>
 #include "BaseApplication.hpp"
 
@@ -21,39 +11,28 @@ int main(int argc, char** argv) {
     if ((ret = g_pApp->Initialize()) != 0) {
         printf("App Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("App Initialize sucessfully.");
     }
 
     if ((ret = g_pMemoryManager->Initialize()) != 0) {
         printf("Memory Manager Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("Memory Manager Initialize sucessfully.");
     }
 
     if ((ret = g_pAssetLoader->Initialize()) != 0) {
         printf("Asset Loader Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("Asset Loader Initialize sucessfully.");
     }
 
     if ((ret = g_pSceneManager->Initialize()) != 0) {
         printf("Scene Manager Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("Scene Manager Initialize sucessfully.");
     }
 
-    g_pSceneManager->LoadScene("Scene/cube.ogex");
+    g_pSceneManager->LoadScene("Scene/test.ogex");
 
-    // load scene once in here
     if ((ret = g_pGraphicsManager->Initialize()) != 0) {
         printf("Graphics Manager Initialize failed, will exit now.");
         return ret;
-    } else {
-        printf("GraphicsInitialize sucessfully.");
     }
 
     while (!g_pApp->IsQuit()) {

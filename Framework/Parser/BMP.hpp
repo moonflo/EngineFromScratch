@@ -11,7 +11,6 @@ typedef struct _BITMAP_FILEHEADER {
     uint32_t BitsOffset;
 } BITMAP_FILEHEADER;
 
-//
 #define BITMAP_FILEHEADER_SIZE 14
 
 typedef struct _BITMAP_HEADER {
@@ -57,11 +56,9 @@ class BmpParser : implements ImageParser {
             img.Height = pBmpHeader->Height;
             img.bitcount = 32;
             img.pitch = ((img.Width * img.bitcount >> 3) + 3) & ~3;
-
             img.data_size = img.pitch * img.Height;
-
             img.data = reinterpret_cast<R8G8B8A8Unorm*>(
-                g_pMemoryManager->Allocate(img.data_size, 4));
+                g_pMemoryManager->Allocate(img.data_size));
 
             if (img.bitcount < 24) {
                 std::cout << "Sorry, only true color BMP is supported at now."
@@ -71,15 +68,14 @@ class BmpParser : implements ImageParser {
                 for (int32_t y = img.Height - 1; y >= 0; y--) {
                     for (uint32_t x = 0; x < img.Width; x++) {
                         (img.data + img.Width * (img.Height - y - 1) + x)
-                            ->bgra = *(reinterpret_cast<R8G8B8A8Unorm*>(
+                            ->bgra = *reinterpret_cast<R8G8B8A8Unorm*>(
                             pSourceData + img.pitch * y +
-                            x * (img.bitcount >> 3)));
-                        //printf("[%d]-[%d] ", y, x);
+                            x * (img.bitcount >> 3));
                     }
-                    //printf("\n");
                 }
             }
         }
+
         return img;
     }
 };

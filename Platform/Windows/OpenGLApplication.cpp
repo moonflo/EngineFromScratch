@@ -1,9 +1,9 @@
-#include "OpenGLApplication.hpp"
 #include <stdio.h>
 #include <tchar.h>
-#include "AssetLoader.hpp"
-#include "MemoryManager.hpp"
+#include "OpenGLApplication.hpp"
 #include "OpenGL/OpenGLGraphicsManager.hpp"
+#include "MemoryManager.hpp"
+#include "AssetLoader.hpp"
 #include "SceneManager.hpp"
 #include "glad/glad_wgl.h"
 
@@ -131,15 +131,15 @@ int My::OpenGLApplication::Initialize() {
                                   WGL_PIXEL_TYPE_ARB,
                                   WGL_TYPE_RGBA_ARB,
                                   WGL_COLOR_BITS_ARB,
-                                  static_cast<int>(colorBits),
+                                  colorBits,
                                   WGL_ALPHA_BITS_ARB,
-                                  static_cast<int>(m_Config.alphaBits),
+                                  m_Config.alphaBits,
                                   WGL_DEPTH_BITS_ARB,
-                                  static_cast<int>(m_Config.depthBits),
+                                  m_Config.depthBits,
                                   WGL_STENCIL_BITS_ARB,
-                                  static_cast<int>(m_Config.stencilBits),
+                                  m_Config.stencilBits,
                                   WGL_SAMPLE_BUFFERS_ARB,
-                                  1,
+                                  1,  // 4x MSAA
                                   WGL_SAMPLES_ARB,
                                   4,  // 4x MSAA
                                   0};
@@ -208,6 +208,7 @@ int My::OpenGLApplication::Initialize() {
 
         result = 0;
     }
+
     return result;
 }
 

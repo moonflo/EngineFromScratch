@@ -1,13 +1,3 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-06-28 17:59:49
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-12 20:48:51
- * @FilePath: \EngineFromScratch\Platform\Windows\WindowsApplication.hpp
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
 #pragma once
 // include the basic windows header file
 #include <windows.h>
