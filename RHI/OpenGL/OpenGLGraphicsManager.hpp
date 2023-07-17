@@ -1,11 +1,13 @@
 #pragma once
-#include "GraphicsManager.hpp"
-#include "geommath.hpp"
 #include <unordered_map>
 #include <vector>
+#include <map>
 #include <string>
 #include <memory>
+#include "GraphicsManager.hpp"
+#include "geommath.hpp"
 #include "glad/glad.h"
+#include "SceneObject.hpp"
 
 namespace My {
 class OpenGLGraphicsManager : public GraphicsManager {
@@ -13,50 +15,41 @@ class OpenGLGraphicsManager : public GraphicsManager {
     virtual int Initialize();
     virtual void Finalize();
 
-    virtual void Tick();
-
     virtual void Clear();
 
     virtual void Draw();
 
-   private:
-    bool SetPerBatchShaderParameters(const char* paramName, float* param);
+   protected:
+    bool SetPerBatchShaderParameters(const char* paramName,
+                                     const Matrix4X4f& param);
+    bool SetPerBatchShaderParameters(const char* paramName,
+                                     const Vector3f& param);
+    bool SetPerBatchShaderParameters(const char* paramName, const float param);
+    bool SetPerBatchShaderParameters(const char* paramName, const int param);
     bool SetPerFrameShaderParameters();
 
     void InitializeBuffers();
-
-    void InitializeBuffers_multiDraw();
-
     void RenderBuffers();
-    void CalculateCameraMatrix();
-    void CalculateLights();
     bool InitializeShader(const char* vsFilename, const char* fsFilename);
 
    private:
     unsigned int m_vertexShader;
     unsigned int m_fragmentShader;
     unsigned int m_shaderProgram;
-
-    struct DrawFrameContext {
-        Matrix4X4f m_worldMatrix;
-        Matrix4X4f m_viewMatrix;
-        Matrix4X4f m_projectionMatrix;
-        Vector3f m_lightPosition;
-        Vector4f m_lightColor;
-    };
+    std::map<std::string, GLint> m_TextureIndex;
 
     struct DrawBatchContext {
         GLuint vao;
         GLenum mode;
         GLenum type;
         GLsizei count;
-        std::vector<GLsizei> counts;
         std::shared_ptr<Matrix4X4f> transform;
+        std::shared_ptr<SceneObjectMaterial> material;
     };
 
-    DrawFrameContext m_DrawFrameContext;
     std::vector<DrawBatchContext> m_DrawBatchContext;
     std::vector<GLuint> m_Buffers;
+    std::vector<GLuint> m_Textures;
 };
 
 }  // namespace My

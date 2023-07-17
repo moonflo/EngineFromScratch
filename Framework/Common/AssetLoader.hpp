@@ -1,3 +1,13 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-13 22:32:28
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-17 22:39:11
+ * @FilePath: \EngineFromScratch\Framework\Common\AssetLoader.hpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
 
 #include <cstdio>
@@ -53,7 +63,7 @@ class AssetLoader : public IRuntimeModule {
     inline std::string SyncOpenAndReadTextFileToString(const char* fileName) {
         std::string result;
         Buffer buffer = SyncOpenAndReadText(fileName);
-        char* content = reinterpret_cast<char*>(buffer.m_pData);
+        char* content = reinterpret_cast<char*>(buffer.GetData());
 
         if (content) {
             result = std::string(std::move(content));

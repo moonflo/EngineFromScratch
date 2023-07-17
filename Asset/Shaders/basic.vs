@@ -41,4 +41,3 @@ void main(void)
 	normal=transformMatrix*vec4(inputNormal,0.f);
 	normal=viewMatrix*normal;
 }
-

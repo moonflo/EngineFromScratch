@@ -1,3 +1,13 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-13 22:32:28
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-17 23:43:21
+ * @FilePath: \EngineFromScratch\Framework\Common\Scene.cpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #include "Scene.hpp"
 
 using namespace My;
@@ -34,7 +44,7 @@ const shared_ptr<SceneObjectMaterial> Scene::GetMaterial(
     const std::string& key) const {
     auto i = Materials.find(key);
     if (i == Materials.end())
-        return nullptr;
+        return m_pDefaultMaterial;
     else
         return i->second;
 }
@@ -81,4 +91,10 @@ const shared_ptr<SceneCameraNode> Scene::GetNextCameraNode() const {
     if (_it == CameraNodes.cend())
         return nullptr;
     return ((++_it == CameraNodes.cend()) ? nullptr : _it->second);
+}
+
+void Scene::LoadResource() {
+    for (auto material : Materials) {
+        material.second->LoadTextures();
+    }
 }

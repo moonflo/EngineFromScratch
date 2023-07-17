@@ -1,3 +1,13 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-13 22:32:28
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-17 23:38:29
+ * @FilePath: \EngineFromScratch\Framework\Common\GfxConfiguration.h
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
 #include <stdint.h>
 #include <iostream>

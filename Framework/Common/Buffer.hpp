@@ -1,11 +1,21 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-09 09:50:34
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-17 22:36:54
+ * @FilePath: \EngineFromScratch\Framework\Common\Buffer.hpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
-#include <memory.h>
-#include <stddef.h>
+#include <memory>
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
 #include "MemoryManager.hpp"
 
 namespace My {
-extern MemoryManager* g_pMemoryManager;
-
 class Buffer {
    public:
     Buffer()
@@ -67,7 +77,11 @@ class Buffer {
         m_pData = nullptr;
     }
 
-   public:
+    uint8_t* GetData(void) { return m_pData; };
+    const uint8_t* GetData(void) const { return m_pData; };
+    size_t GetDataSize(void) const { return m_szSize; };
+
+   protected:
     uint8_t* m_pData;
     size_t m_szSize;
     size_t m_szAlignment;

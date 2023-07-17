@@ -1,29 +1,12 @@
 #include <stdio.h>
 #include <tchar.h>
 #include "OpenGLApplication.hpp"
-#include "OpenGL/OpenGLGraphicsManager.hpp"
-#include "MemoryManager.hpp"
-#include "AssetLoader.hpp"
-#include "SceneManager.hpp"
 #include "glad/glad_wgl.h"
 
 using namespace My;
 
-namespace My {
-GfxConfiguration config(8, 8, 8, 8, 24, 8, 0, 960, 540,
-                        _T("Game Engine From Scratch (Win32 + OpenGL)"));
-IApplication* g_pApp =
-    static_cast<IApplication*>(new OpenGLApplication(config));
-GraphicsManager* g_pGraphicsManager =
-    static_cast<GraphicsManager*>(new OpenGLGraphicsManager);
-MemoryManager* g_pMemoryManager =
-    static_cast<MemoryManager*>(new MemoryManager);
-AssetLoader* g_pAssetLoader = static_cast<AssetLoader*>(new AssetLoader);
-SceneManager* g_pSceneManager = static_cast<SceneManager*>(new SceneManager);
-}  // namespace My
-
-static LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam,
-                                LPARAM lParam) {
+static LRESULT CALLBACK TmpWndProc(HWND hWnd, UINT uiMsg, WPARAM wParam,
+                                   LPARAM lParam) {
     switch (uiMsg) {
         case WM_CLOSE:
             PostQuitMessage(0);
@@ -36,11 +19,13 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam,
     return 0;
 }
 
-int My::OpenGLApplication::Initialize() {
+int OpenGLApplication::Initialize() {
     int result;
-    auto colorBits = m_Config.redBits + m_Config.greenBits + m_Config.blueBits;
+    auto colorBits =
+        m_Config.redBits + m_Config.greenBits +
+        m_Config
+            .blueBits;  // note on windows this does not include alpha bitplane
 
-    // create a temporary window for OpenGL context loading
     DWORD Style = WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
     WNDCLASSEX WndClassEx;
     memset(&WndClassEx, 0, sizeof(WNDCLASSEX));
@@ -49,7 +34,7 @@ int My::OpenGLApplication::Initialize() {
 
     WndClassEx.cbSize = sizeof(WNDCLASSEX);
     WndClassEx.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-    WndClassEx.lpfnWndProc = WndProc;
+    WndClassEx.lpfnWndProc = TmpWndProc;
     WndClassEx.hInstance = hInstance;
     WndClassEx.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     WndClassEx.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
@@ -68,6 +53,9 @@ int My::OpenGLApplication::Initialize() {
     pfd.dwFlags = PFD_DOUBLEBUFFER | PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW;
     pfd.iPixelType = PFD_TYPE_RGBA;
     pfd.cColorBits = colorBits;
+    pfd.cRedBits = m_Config.redBits;
+    pfd.cGreenBits = m_Config.greenBits;
+    pfd.cBlueBits = m_Config.blueBits;
     pfd.cAlphaBits = m_Config.alphaBits;
     pfd.cDepthBits = m_Config.depthBits;
     pfd.cStencilBits = m_Config.stencilBits;
@@ -110,11 +98,8 @@ int My::OpenGLApplication::Initialize() {
     ReleaseDC(TemphWnd, TemphDC);
     DestroyWindow(TemphWnd);
 
-    result = WindowsApplication::Initialize();
-    if (result) {
-        printf("Windows Application initialize failed!");
-        return result;
-    }
+    // now initialize our application window
+    WindowsApplication::CreateMainWindow();
 
     m_hDC = GetDC(m_hWnd);
 
@@ -132,6 +117,12 @@ int My::OpenGLApplication::Initialize() {
                                   WGL_TYPE_RGBA_ARB,
                                   WGL_COLOR_BITS_ARB,
                                   colorBits,
+                                  WGL_RED_BITS_ARB,
+                                  m_Config.redBits,
+                                  WGL_GREEN_BITS_ARB,
+                                  m_Config.greenBits,
+                                  WGL_BLUE_BITS_ARB,
+                                  m_Config.blueBits,
                                   WGL_ALPHA_BITS_ARB,
                                   m_Config.alphaBits,
                                   WGL_DEPTH_BITS_ARB,
@@ -162,7 +153,7 @@ int My::OpenGLApplication::Initialize() {
             WGL_CONTEXT_MAJOR_VERSION_ARB,
             3,
             WGL_CONTEXT_MINOR_VERSION_ARB,
-            2,
+            3,
             WGL_CONTEXT_FLAGS_ARB,
             WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
             WGL_CONTEXT_PROFILE_MASK_ARB,
@@ -205,14 +196,19 @@ int My::OpenGLApplication::Initialize() {
         if (result != 1) {
             return result;
         }
+    }
 
-        result = 0;
+    result = BaseApplication::Initialize();
+
+    if (result) {
+        printf("Windows Application initialize failed!");
+        return result;
     }
 
     return result;
 }
 
-void My::OpenGLApplication::Finalize() {
+void OpenGLApplication::Finalize() {
     if (m_RenderContext) {
         wglMakeCurrent(NULL, NULL);
         wglDeleteContext(m_RenderContext);
@@ -222,7 +218,7 @@ void My::OpenGLApplication::Finalize() {
     WindowsApplication::Finalize();
 }
 
-void My::OpenGLApplication::Tick() {
+void OpenGLApplication::Tick() {
     WindowsApplication::Tick();
     g_pGraphicsManager->Clear();
     g_pGraphicsManager->Draw();
