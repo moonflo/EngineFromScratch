@@ -432,6 +432,7 @@ void OpenGLGraphicsManager::CalculateCameraMatrix() {
         InverseMatrix4X4f(m_DrawFrameContext.m_viewMatrix);
     } else {
         // use default build-in camera
+        std::cout << "[INFO] Use default build-in camera\n";
         Vector3f position = {0, -5, 0}, lookAt = {0, 0, 0}, up = {0, 0, 1};
         BuildViewMatrix(m_DrawFrameContext.m_viewMatrix, position, lookAt, up);
     }
@@ -443,6 +444,7 @@ void OpenGLGraphicsManager::CalculateCameraMatrix() {
     if (pCameraNode) {
         auto pCamera = scene.GetCamera(pCameraNode->GetSceneObjectRef());
         // Set the field of view and screen aspect ratio.
+        std::cout << "[INFO] Set the field of view and screen aspect ratio.\n";
         fieldOfView =
             dynamic_pointer_cast<SceneObjectPerspectiveCamera>(pCamera)
                 ->GetFov();
