@@ -1,7 +1,7 @@
 #pragma once
-#include "geommath.hpp"
 #include "IRuntimeModule.hpp"
 #include "SceneParser.hpp"
+#include "geommath.hpp"
 
 namespace My {
 class SceneManager : implements IRuntimeModule {
@@ -13,12 +13,12 @@ class SceneManager : implements IRuntimeModule {
 
     virtual void Tick();
 
-    void LoadScene(const char* scene_file_name);
+    int LoadScene(const char* scene_file_name);
 
     const Scene& GetSceneForRendering();
 
    protected:
-    void LoadOgexScene(const char* ogex_scene_file_name);
+    bool LoadOgexScene(const char* ogex_scene_file_name);
 
    protected:
     std::unique_ptr<Scene> m_pScene;

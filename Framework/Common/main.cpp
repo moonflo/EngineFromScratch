@@ -1,19 +1,10 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-17 16:21:31
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-17 18:25:18
- * @FilePath: \EngineFromScratch\Framework\Common\main.cpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
 #include <chrono>
 #include <cstdio>
 #include <thread>
 #include "BaseApplication.hpp"
 
 using namespace My;
+using namespace std;
 
 int main(int argc, char** argv) {
     int ret;
@@ -38,7 +29,15 @@ int main(int argc, char** argv) {
         return ret;
     }
 
-    g_pSceneManager->LoadScene("Scene/test.ogex");
+    string scene_file_name = "Scene/aili.ogex";
+    if (argc > 1) {
+        scene_file_name = argv[1];
+    }
+
+    if ((ret = g_pSceneManager->LoadScene(scene_file_name.c_str())) != 0) {
+        printf("Unable to load scene: %s\n", scene_file_name.c_str());
+        return ret;
+    }
 
     if ((ret = g_pGraphicsManager->Initialize()) != 0) {
         printf("Graphics Manager Initialize failed, will exit now.");

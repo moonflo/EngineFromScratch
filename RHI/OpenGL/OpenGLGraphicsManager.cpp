@@ -1,6 +1,6 @@
-#include <iostream>
-#include <fstream>
 #include "OpenGLGraphicsManager.hpp"
+#include <fstream>
+#include <iostream>
 #include "AssetLoader.hpp"
 #include "IApplication.hpp"
 #include "SceneManager.hpp"
@@ -104,7 +104,7 @@ int OpenGLGraphicsManager::Initialize() {
         cout << "OpenGL Version " << GLVersion.major << "." << GLVersion.minor
              << " loaded" << endl;
 
-        if (GLAD_GL_VERSION_3_0) {
+        if (GLAD_GL_VERSION_3_2) {
             // Set the depth buffer to be entirely cleared to 1.0 values.
             glClearDepth(1.0f);
 
