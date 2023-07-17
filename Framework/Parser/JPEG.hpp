@@ -137,7 +137,6 @@ class JfifParser : implements ImageParser {
                          Image& img) {
         std::vector<uint8_t> scan_data;
         size_t scanLength = 0;
-        bool bLastRestartSegment = true;
 
         {
             const uint8_t* p = pScanData;
@@ -167,7 +166,6 @@ class JfifParser : implements ImageParser {
 #if DUMP_DETAILS
                 std::cout << "Found RST while scan the ECS." << std::endl;
 #endif
-                bLastRestartSegment = false;
             }
 
 #if DUMP_DETAILS
@@ -434,8 +432,6 @@ class JfifParser : implements ImageParser {
             std::cout << "Asset is JPEG file" << std::endl;
 
             while (pData < pDataEnd) {
-                bool foundStartOfScan = false;
-                bool foundRestartOfScan = false;
                 size_t scanLength = 0;
 
                 const JPEG_SEGMENT_HEADER* pSegmentHeader =
@@ -642,7 +638,6 @@ class JfifParser : implements ImageParser {
                             2 /* length of marker */;
                     } break;
                     case 0xFFDA: {
-                        foundStartOfScan = true;
                         std::cout << "Start Of Scan" << std::endl;
                         std::cout << "----------------------------"
                                   << std::endl;
@@ -678,7 +673,6 @@ class JfifParser : implements ImageParser {
                     case 0xFFD5:
                     case 0xFFD6:
                     case 0xFFD7: {
-                        foundRestartOfScan = true;
 #if DUMP_DETAILS
                         std::cout << "Restart Of Scan" << std::endl;
                         std::cout << "----------------------------"
@@ -690,7 +684,6 @@ class JfifParser : implements ImageParser {
                         pData += 2 + scanLength /* length of marker */;
                     } break;
                     case 0xFFD9: {
-                        foundStartOfScan = false;
                         std::cout << "End Of Scan" << std::endl;
                         std::cout << "----------------------------"
                                   << std::endl;

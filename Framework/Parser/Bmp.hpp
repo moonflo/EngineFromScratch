@@ -1,9 +1,9 @@
 /*
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-08 09:31:25
+ * @Date: 2023-07-09 09:50:34
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-08 10:24:49
- * @FilePath: \EngineFromScratch\Framework\Codec\BmpParser.hpp
+ * @LastEditTime: 2023-07-17 23:34:14
+ * @FilePath: \EngineFromScratch\Framework\Parser\BMP.hpp
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
@@ -21,7 +21,6 @@ typedef struct _BITMAP_FILEHEADER {
     uint32_t BitsOffset;
 } BITMAP_FILEHEADER;
 
-//
 #define BITMAP_FILEHEADER_SIZE 14
 
 typedef struct _BITMAP_HEADER {
@@ -42,14 +41,14 @@ typedef struct _BITMAP_HEADER {
 class BmpParser : implements ImageParser {
    public:
     virtual Image Parse(const Buffer& buf) {
-        std::cout << "[INFO] Probe." << std::endl;
         Image img;
-        BITMAP_FILEHEADER* pFileHeader =
-            reinterpret_cast<BITMAP_FILEHEADER*>(buf.m_pData);
-        BITMAP_HEADER* pBmpHeader = reinterpret_cast<BITMAP_HEADER*>(
-            buf.m_pData + BITMAP_FILEHEADER_SIZE);
+        const BITMAP_FILEHEADER* pFileHeader =
+            reinterpret_cast<const BITMAP_FILEHEADER*>(buf.GetData());
+        const BITMAP_HEADER* pBmpHeader =
+            reinterpret_cast<const BITMAP_HEADER*>(
+                reinterpret_cast<const uint8_t*>(buf.GetData()) +
+                BITMAP_FILEHEADER_SIZE);
         if (pFileHeader->Signature == 0x4D42 /* 'B''M' */) {
-            std::cout << "[INFO] Probe." << std::endl;
             std::cout << "Asset is Windows BMP file" << std::endl;
             std::cout << "BMP Header" << std::endl;
             std::cout << "----------------------------" << std::endl;
@@ -63,42 +62,35 @@ class BmpParser : implements ImageParser {
                       << std::endl;
             std::cout << "Image Compression: " << pBmpHeader->Compression
                       << std::endl;
-            std::cout << "[INFO] Probe." << std::endl;
             std::cout << "Image Size: " << pBmpHeader->SizeImage << std::endl;
 
-            std::cout << "[INFO] Probe." << std::endl;
             img.Width = pBmpHeader->Width;
-            std::cout << "[INFO] Probe." << std::endl;
             img.Height = pBmpHeader->Height;
-            std::cout << "[INFO] Probe." << std::endl;
             img.bitcount = 32;
-            std::cout << "[INFO] Probe." << std::endl;
-            img.pitch = ((img.Width * img.bitcount >> 3) + 3) & ~3;
-            std::cout << "[INFO] Probe." << std::endl;
+            auto byte_count = img.bitcount >> 3;
+            img.pitch = ((img.Width * byte_count) + 3) & ~3;
             img.data_size = img.pitch * img.Height;
-            std::cout << "[INFO] Probe." << std::endl;
-            img.data = reinterpret_cast<R8G8B8A8Unorm*>(
-                g_pMemoryManager->Allocate(img.data_size));
+            img.data = g_pMemoryManager->Allocate(img.data_size);
 
-            std::cout << "[INFO] Probe." << std::endl;
             if (img.bitcount < 24) {
                 std::cout << "Sorry, only true color BMP is supported at now."
                           << std::endl;
             } else {
-                std::cout << "[INFO] Probe." << std::endl;
-                uint8_t* pSourceData = buf.m_pData + pFileHeader->BitsOffset;
+                const uint8_t* pSourceData =
+                    reinterpret_cast<const uint8_t*>(buf.GetData()) +
+                    pFileHeader->BitsOffset;
                 for (int32_t y = img.Height - 1; y >= 0; y--) {
                     for (uint32_t x = 0; x < img.Width; x++) {
-                        (img.data + img.Width * (img.Height - y - 1) + x)
-                            ->bgra = *reinterpret_cast<R8G8B8A8Unorm*>(
-                            pSourceData + img.pitch * y +
-                            x * (img.bitcount >> 3));
+                        (reinterpret_cast<R8G8B8A8Unorm*>(
+                             reinterpret_cast<uint8_t*>(img.data) +
+                             img.pitch * (img.Height - y - 1) + x * byte_count))
+                            ->bgra = *reinterpret_cast<const R8G8B8A8Unorm*>(
+                            pSourceData + img.pitch * y + x * byte_count);
                     }
                 }
-                std::cout << "[INFO] Probe." << std::endl;
             }
         }
-        std::cout << "[INFO] Output the Image." << std::endl;
+
         return img;
     }
 };

@@ -3,15 +3,7 @@
 
 using namespace My;
 
-int My::WindowsApplication::Initialize() {
-    int result;
-
-    // first call base class initialization
-    result = BaseApplication::Initialize();
-
-    if (result != 0)
-        exit(result);
-
+void WindowsApplication::CreateMainWindow() {
     // get the HINSTANCE of the Console Program
     HINSTANCE hInstance = GetModuleHandle(NULL);
 
@@ -50,13 +42,29 @@ int My::WindowsApplication::Initialize() {
 
     // display the window on the screen
     ShowWindow(m_hWnd, SW_SHOW);
+}
+
+int WindowsApplication::Initialize() {
+    int result;
+
+    CreateMainWindow();
+
+    // first call base class initialization
+    result = BaseApplication::Initialize();
+
+    if (result != 0)
+        exit(result);
 
     return result;
 }
 
-void My::WindowsApplication::Finalize() {}
+void WindowsApplication::Finalize() {
+    BaseApplication::Finalize();
+}
 
-void My::WindowsApplication::Tick() {
+void WindowsApplication::Tick() {
+    BaseApplication::Tick();
+
     // this struct holds Windows event messages
     MSG msg;
 
@@ -73,9 +81,8 @@ void My::WindowsApplication::Tick() {
 }
 
 // this is the main message handler for the program
-LRESULT CALLBACK My::WindowsApplication::WindowProc(HWND hWnd, UINT message,
-                                                    WPARAM wParam,
-                                                    LPARAM lParam) {
+LRESULT CALLBACK WindowsApplication::WindowProc(HWND hWnd, UINT message,
+                                                WPARAM wParam, LPARAM lParam) {
     WindowsApplication* pThis;
     if (message == WM_NCCREATE) {
         pThis = static_cast<WindowsApplication*>(
@@ -94,9 +101,44 @@ LRESULT CALLBACK My::WindowsApplication::WindowProc(HWND hWnd, UINT message,
 
     // sort through and find what code to run for the message given
     switch (message) {
+        case WM_PAINT: {
+            g_pApp->OnDraw();
+        } break;
+        case WM_KEYUP: {
+            switch (wParam) {
+                case VK_LEFT:
+                    g_pInputManager->LeftArrowKeyUp();
+                    break;
+                case VK_RIGHT:
+                    g_pInputManager->RightArrowKeyUp();
+                    break;
+                case VK_UP:
+                    g_pInputManager->UpArrowKeyUp();
+                    break;
+                case VK_DOWN:
+                    g_pInputManager->DownArrowKeyUp();
+                    break;
+                default:
+                    break;
+            }
+        } break;
         case WM_KEYDOWN: {
-            // we will replace this with input manager
-            m_bQuit = true;
+            switch (wParam) {
+                case VK_LEFT:
+                    g_pInputManager->LeftArrowKeyDown();
+                    break;
+                case VK_RIGHT:
+                    g_pInputManager->RightArrowKeyDown();
+                    break;
+                case VK_UP:
+                    g_pInputManager->UpArrowKeyDown();
+                    break;
+                case VK_DOWN:
+                    g_pInputManager->DownArrowKeyDown();
+                    break;
+                default:
+                    break;
+            }
         } break;
 
             // this message is read when the window is closed
@@ -104,7 +146,6 @@ LRESULT CALLBACK My::WindowsApplication::WindowProc(HWND hWnd, UINT message,
             // close the application entirely
             PostQuitMessage(0);
             m_bQuit = true;
-            return 0;
         }
     }
 

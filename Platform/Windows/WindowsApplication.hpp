@@ -1,3 +1,13 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-13 22:32:28
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-17 23:35:36
+ * @FilePath: \EngineFromScratch\Platform\Windows\WindowsApplication.hpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
 // include the basic windows header file
 #include <windows.h>
@@ -14,7 +24,10 @@ class WindowsApplication : public BaseApplication {
     // One cycle of the main loop
     virtual void Tick();
 
-    HWND GetMainWindow() { return m_hWnd; }
+    HWND GetMainWindow() { return m_hWnd; };
+
+   protected:
+    void CreateMainWindow();
 
    private:
     // the WindowProc function prototype
