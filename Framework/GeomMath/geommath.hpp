@@ -1,17 +1,18 @@
 #pragma once
-#include <math.h>
 #include <cstdint>
 #include <iostream>
 #include <limits>
-#include "include/AddByElement.h"
+#include <math.h>
 #include "include/CrossProduct.h"
-#include "include/DotProduct.h"
 #include "include/MulByElement.h"
 #include "include/Normalize.h"
-#include "include/SubByElement.h"
 #include "include/Transform.h"
 #include "include/Transpose.h"
+#include "include/AddByElement.h"
+#include "include/SubByElement.h"
+#include "include/MatrixExchangeYandZ.h"
 #include "include/InverseMatrix4X4f.h"
+#include "include/DCT.h"
 
 #ifndef PI
 #define PI 3.14159265358979323846f
@@ -111,6 +112,7 @@ struct Vector3Type {
         swizzle<My::Vector3Type, T, 2, 0, 1> zxy;
         swizzle<My::Vector3Type, T, 1, 2, 0> yzx;
         swizzle<My::Vector3Type, T, 2, 1, 0> zyx;
+        swizzle<My::Vector3Type, T, 0, 1, 2> rgb;
     };
 
     Vector3Type<T>(){};
@@ -123,6 +125,8 @@ struct Vector3Type {
 };
 
 typedef Vector3Type<float> Vector3f;
+typedef Vector3Type<int16_t> Vector3i16;
+typedef Vector3Type<int32_t> Vector3i32;
 
 template <typename T>
 struct Vector4Type {
@@ -134,11 +138,14 @@ struct Vector4Type {
         struct {
             T r, g, b, a;
         };
+        swizzle<My::Vector3Type, T, 0, 1, 2> xyz;
         swizzle<My::Vector3Type, T, 0, 2, 1> xzy;
         swizzle<My::Vector3Type, T, 1, 0, 2> yxz;
         swizzle<My::Vector3Type, T, 1, 2, 0> yzx;
         swizzle<My::Vector3Type, T, 2, 0, 1> zxy;
         swizzle<My::Vector3Type, T, 2, 1, 0> zyx;
+        swizzle<My::Vector3Type, T, 0, 1, 2> rgb;
+        swizzle<My::Vector4Type, T, 0, 1, 2, 3> rgba;
         swizzle<My::Vector4Type, T, 2, 1, 0, 3> bgra;
     };
 
@@ -154,7 +161,9 @@ struct Vector4Type {
     operator T*() { return data; };
     operator const T*() const { return static_cast<const T*>(data); };
     Vector4Type& operator=(const T* f) {
-        memcpy(data, f, sizeof(T) * 4);
+        for (int32_t i = 0; i < 4; i++) {
+            data[i] = *(f + i);
+        }
         return *this;
     };
 };
@@ -164,13 +173,37 @@ typedef Vector4Type<float> Quaternion;
 typedef Vector4Type<uint8_t> R8G8B8A8Unorm;
 typedef Vector4Type<uint8_t> Vector4i;
 
+template <template <typename> class TT>
+std::ostream& operator<<(std::ostream& out, TT<int8_t> vector) {
+    out << "( ";
+    for (uint32_t i = 0; i < countof(vector.data); i++) {
+        out << (int)vector.data[i]
+            << ((i == countof(vector.data) - 1) ? ' ' : ',');
+    }
+    out << ")\n";
+
+    return out;
+}
+
+template <template <typename> class TT>
+std::ostream& operator<<(std::ostream& out, TT<uint8_t> vector) {
+    out << "( ";
+    for (uint32_t i = 0; i < countof(vector.data); i++) {
+        out << (unsigned int)vector.data[i]
+            << ((i == countof(vector.data) - 1) ? ' ' : ',');
+    }
+    out << ")\n";
+
+    return out;
+}
+
 template <template <typename> class TT, typename T>
 std::ostream& operator<<(std::ostream& out, TT<T> vector) {
     out << "( ";
     for (uint32_t i = 0; i < countof(vector.data); i++) {
         out << vector.data[i] << ((i == countof(vector.data) - 1) ? ' ' : ',');
     }
-    out << ")";
+    out << ")\n";
 
     return out;
 }
@@ -197,6 +230,7 @@ template <template <typename> class TT, typename T>
 TT<T> operator-(const TT<T>& vec1, const TT<T>& vec2) {
     TT<T> result;
     VectorSub(result, vec1, vec2);
+
     return result;
 }
 
@@ -205,9 +239,24 @@ inline void CrossProduct(TT<T>& result, const TT<T>& vec1, const TT<T>& vec2) {
     ispc::CrossProduct(vec1, vec2, result);
 }
 
+template <typename T>
+inline void DotProduct(T& result, const T* a, const T* b, size_t count) {
+    T* _result = new T[count];
+
+    result = static_cast<T>(0);
+
+    ispc::MulByElement(a, b, _result, count);
+    for (size_t i = 0; i < count; i++) {
+        result += _result[i];
+    }
+
+    delete[] _result;
+}
+
 template <template <typename> class TT, typename T>
 inline void DotProduct(T& result, const TT<T>& vec1, const TT<T>& vec2) {
-    ispc::DotProduct(vec1, vec2, &result, countof(vec1.data));
+    DotProduct(result, static_cast<const T*>(vec1), static_cast<const T*>(vec2),
+               countof(vec1.data));
 }
 
 template <typename T>
@@ -231,12 +280,19 @@ struct Matrix {
     operator const T*() const { return static_cast<const T*>(&data[0][0]); };
 
     Matrix& operator=(const T* _data) {
-        memcpy(data, _data, ROWS * COLS * sizeof(T));
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                data[i][j] = *(_data + i * COLS + j);
+            }
+        }
         return *this;
     }
 };
 
+typedef Matrix<float, 3, 3> Matrix3X3f;
 typedef Matrix<float, 4, 4> Matrix4X4f;
+typedef Matrix<int32_t, 8, 8> Matrix8X8i;
+typedef Matrix<float, 8, 8> Matrix8X8f;
 
 template <typename T, int ROWS, int COLS>
 std::ostream& operator<<(std::ostream& out, Matrix<T, ROWS, COLS> matrix) {
@@ -271,7 +327,21 @@ template <typename T, int ROWS, int COLS>
 void MatrixSub(Matrix<T, ROWS, COLS>& result,
                const Matrix<T, ROWS, COLS>& matrix1,
                const Matrix<T, ROWS, COLS>& matrix2) {
-    ispc::AddByElement(matrix1, matrix2, result, countof(result.data));
+    ispc::SubByElement(matrix1, matrix2, result, countof(result.data));
+}
+
+template <typename T, int ROWS, int COLS>
+void MatrixMulByElement(Matrix<T, ROWS, COLS>& result,
+                        const Matrix<T, ROWS, COLS>& matrix1,
+                        const Matrix<T, ROWS, COLS>& matrix2) {
+    ispc::MulByElement(matrix1, matrix2, result, countof(result.data));
+}
+
+template <int ROWS, int COLS>
+void MatrixMulByElementi32(Matrix<int32_t, ROWS, COLS>& result,
+                           const Matrix<int32_t, ROWS, COLS>& matrix1,
+                           const Matrix<int32_t, ROWS, COLS>& matrix2) {
+    ispc::MulByElementi32(matrix1, matrix2, result, countof(result.data));
 }
 
 template <typename T, int ROWS, int COLS>
@@ -290,8 +360,7 @@ void MatrixMultiply(Matrix<T, Da, Dc>& result, const Matrix<T, Da, Db>& matrix1,
     Transpose(matrix2_transpose, matrix2);
     for (int i = 0; i < Da; i++) {
         for (int j = 0; j < Dc; j++) {
-            ispc::DotProduct(matrix1[i], matrix2_transpose[j], &result[i][j],
-                             Db);
+            DotProduct(result[i][j], matrix1[i], matrix2_transpose[j], Db);
         }
     }
 
@@ -314,9 +383,12 @@ inline void Transpose(TT<T, ROWS, COLS>& result,
     ispc::Transpose(matrix1, result, ROWS, COLS);
 }
 
-template <typename T>
-inline void Normalize(T& result) {
-    ispc::Normalize(result, countof(result.data));
+template <template <typename> class TT, typename T>
+inline void Normalize(TT<T>& a) {
+    T length;
+    DotProduct(length, static_cast<T*>(a), static_cast<T*>(a), countof(a.data));
+    length = sqrt(length);
+    ispc::Normalize(a, length, countof(a.data));
 }
 
 inline void MatrixRotationYawPitchRoll(Matrix4X4f& matrix, const float yaw,
@@ -336,10 +408,8 @@ inline void MatrixRotationYawPitchRoll(Matrix4X4f& matrix, const float yaw,
     Matrix4X4f tmp = {
         {{{(cRoll * cYaw) + (sRoll * sPitch * sYaw), (sRoll * cPitch),
            (cRoll * -sYaw) + (sRoll * sPitch * cYaw), 0.0f},
-
           {(-sRoll * cYaw) + (cRoll * sPitch * sYaw), (cRoll * cPitch),
            (sRoll * sYaw) + (cRoll * sPitch * cYaw), 0.0f},
-
           {(cPitch * sYaw), -sPitch, (cPitch * cYaw), 0.0f},
           {0.0f, 0.0f, 0.0f, 1.0f}}}};
 
@@ -358,13 +428,17 @@ inline void Transform(Vector4f& vector, const Matrix4X4f& matrix) {
     return;
 }
 
+template <typename T, int ROWS, int COLS>
+inline void ExchangeYandZ(Matrix<T, ROWS, COLS>& matrix) {
+    ispc::MatrixExchangeYandZ(matrix, ROWS, COLS);
+}
+
 inline void BuildViewMatrix(Matrix4X4f& result, const Vector3f position,
                             const Vector3f lookAt, const Vector3f up) {
-    Vector3f zAxis(0), xAxis(0), yAxis(0);
+    Vector3f zAxis, xAxis, yAxis;
     float result1, result2, result3;
 
     zAxis = lookAt - position;
-
     Normalize(zAxis);
 
     CrossProduct(xAxis, up, zAxis);
@@ -418,7 +492,6 @@ inline void BuildPerspectiveFovLHMatrix(Matrix4X4f& matrix,
     return;
 }
 
-// RH Coordinate System, for OpenGL
 inline void BuildPerspectiveFovRHMatrix(Matrix4X4f& matrix,
                                         const float fieldOfView,
                                         const float screenAspect,
@@ -543,4 +616,15 @@ inline bool InverseMatrix4X4f(Matrix4X4f& matrix) {
     return ispc::InverseMatrix4X4f(matrix);
 }
 
+inline Matrix8X8f DCT8X8(const Matrix8X8f& matrix) {
+    Matrix8X8f result;
+    ispc::DCT8X8(matrix, result);
+    return result;
+}
+
+inline Matrix8X8f IDCT8X8(const Matrix8X8f& matrix) {
+    Matrix8X8f result;
+    ispc::IDCT8X8(matrix, result);
+    return result;
+}
 }  // namespace My

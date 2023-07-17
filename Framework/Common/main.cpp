@@ -1,3 +1,13 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-17 21:48:22
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-17 22:11:04
+ * @FilePath: \EngineFromScratch\Framework\Common\main.cpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #include <chrono>
 #include <cstdio>
 #include <thread>
@@ -29,7 +39,7 @@ int main(int argc, char** argv) {
         return ret;
     }
 
-    string scene_file_name = "Scene/aili.ogex";
+    string scene_file_name = "Scene/aili_cycle.ogex";
     if (argc > 1) {
         scene_file_name = argv[1];
     }
