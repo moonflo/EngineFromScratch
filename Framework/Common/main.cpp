@@ -1,5 +1,15 @@
-#include <cstdio>
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-17 16:21:31
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-17 18:25:18
+ * @FilePath: \EngineFromScratch\Framework\Common\main.cpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #include <chrono>
+#include <cstdio>
 #include <thread>
 #include "BaseApplication.hpp"
 
