@@ -1,4 +1,7 @@
 #pragma once
+#include "zlib.h"
+#include <stdio.h>
+
 #include <cstdio>
 #include <iostream>
 #include <string>
@@ -8,7 +11,6 @@
 #include "config.h"
 #include "ImageParser.hpp"
 #include "portable.hpp"
-#include "zlib.h"
 
 namespace My {
 #pragma pack(push, 1)

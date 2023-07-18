@@ -3,7 +3,6 @@
 #include "SceneManager.hpp"
 #include "cbuffer.h"
 #include "IApplication.hpp"
-#include "SceneManager.hpp"
 
 using namespace My;
 using namespace std;
