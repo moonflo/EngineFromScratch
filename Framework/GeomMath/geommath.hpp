@@ -1,18 +1,18 @@
 #pragma once
+#include <math.h>
 #include <cstdint>
 #include <iostream>
 #include <limits>
-#include <math.h>
+#include "include/AddByElement.h"
 #include "include/CrossProduct.h"
+#include "include/DCT.h"
+#include "include/InverseMatrix4X4f.h"
+#include "include/MatrixExchangeYandZ.h"
 #include "include/MulByElement.h"
 #include "include/Normalize.h"
+#include "include/SubByElement.h"
 #include "include/Transform.h"
 #include "include/Transpose.h"
-#include "include/AddByElement.h"
-#include "include/SubByElement.h"
-#include "include/MatrixExchangeYandZ.h"
-#include "include/InverseMatrix4X4f.h"
-#include "include/DCT.h"
 
 #ifndef PI
 #define PI 3.14159265358979323846f
@@ -231,6 +231,15 @@ TT<T> operator-(const TT<T>& vec1, const TT<T>& vec2) {
     TT<T> result;
     VectorSub(result, vec1, vec2);
 
+    return result;
+}
+
+template <template <typename> class TT, typename T>
+TT<T> Product(const TT<T>& vec, const T& num) {
+    TT<T> result = vec;
+    result.x *= num;
+    result.y *= num;
+    result.z *= num;
     return result;
 }
 

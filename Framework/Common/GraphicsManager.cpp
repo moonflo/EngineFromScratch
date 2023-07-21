@@ -1,8 +1,8 @@
-#include <iostream>
 #include "GraphicsManager.hpp"
+#include <iostream>
+#include "IApplication.hpp"
 #include "SceneManager.hpp"
 #include "cbuffer.h"
-#include "IApplication.hpp"
 
 using namespace My;
 using namespace std;
@@ -165,4 +165,21 @@ void GraphicsManager::WorldRotateY(float radians) {
     MatrixRotationY(rotationMatrix, radians);
     m_DrawFrameContext.m_worldMatrix =
         m_DrawFrameContext.m_worldMatrix * rotationMatrix;
+}
+
+void GraphicsManager::CameraMovement(CameraDir direction) {
+    // get view mat
+    float velocity = m_cameraState.MovementSpeed * g_pInputManager->deltaTime;
+    if (direction == FORWARD)
+        m_cameraState.Position =
+            m_cameraState.Position + Product(m_cameraState.Front, velocity);
+    if (direction == BACKWARD)
+        m_cameraState.Position =
+            m_cameraState.Position - Product(m_cameraState.Front, velocity);
+    if (direction == LEFT)
+        m_cameraState.Position =
+            m_cameraState.Position - Product(m_cameraState.Front, velocity);
+    if (direction == RIGHT)
+        m_cameraState.Position =
+            m_cameraState.Position + Product(m_cameraState.Front, velocity);
 }

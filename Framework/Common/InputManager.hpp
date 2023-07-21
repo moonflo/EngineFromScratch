@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-17 23:30:25
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-18 21:16:43
+ * @LastEditTime: 2023-07-20 16:58:19
  * @FilePath: \EngineFromScratch\Framework\Common\InputManager.hpp
  * @Description: 
  * 
@@ -27,17 +27,20 @@ class InputManager : implements IRuntimeModule {
     void RightArrowKeyDown();
     void RightArrowKeyUp();
 
-    // example
-    void W_KeyDown();
-    void W_KeyUp();
-    void A_KeyDown();
-    void A_KeyUp();
-    void S_KeyDown();
-    void S_KeyUp();
-    void D_KeyDown();
-    void D_KeyUp();
+    void WKeyDown();
+    void WKeyUp();
+    void AKeyDown();
+    void AKeyUp();
+    void SKeyDown();
+    void SKeyUp();
+    void DKeyDown();
+    void DKeyUp();
 
-    void MouseMove();
+    void MouseMove(int xposIn, int yposIn);
+    void MouseScroll(int zDelta, int xposIn, int yposIn);
+    float currentTime = 0;
+    float lastTime = 0;
+    float deltaTime = 0;
 };
 
 extern InputManager* g_pInputManager;

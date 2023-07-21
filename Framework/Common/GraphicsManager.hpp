@@ -1,9 +1,23 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-19 15:18:39
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-20 16:46:54
+ * @FilePath: \EngineFromScratch\Framework\Common\GraphicsManager.hpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
-#include "geommath.hpp"
-#include "Image.hpp"
 #include "IRuntimeModule.hpp"
+#include "Image.hpp"
+#include "geommath.hpp"
+#include "CameraMove.hpp"
 
 namespace My {
+
+enum CameraDir { CM_FORWARD = 0, CM_BACKWARD, CM_LEFT, CM_RIGHT };
+
 class GraphicsManager : implements IRuntimeModule {
    public:
     virtual ~GraphicsManager() {}
@@ -16,10 +30,15 @@ class GraphicsManager : implements IRuntimeModule {
     virtual void Clear();
     virtual void Draw();
 
-    // temporary. should be moved to scene manager and script engine (policy engine)
     void WorldRotateX(float radians);
     void WorldRotateY(float radians);
-
+    void CameraMovement(CameraDir direction, float deltaTime);
+    void CameraAppliy(){
+        Matrix4X4f trans = m_cameraState.getTranslate();
+        Matrix4X4f rotat = m_cameraState.getRotation();
+        m_DrawFrameContext.m_viewMatrix =
+            m_DrawFrameContext.m_viewMatrix * trans * rotat;
+    }
    protected:
     bool SetPerFrameShaderParameters();
     bool SetPerBatchShaderParameters(const char* paramName,
@@ -37,6 +56,8 @@ class GraphicsManager : implements IRuntimeModule {
     void RenderBuffers();
 
    protected:
+    CameraState m_cameraState;
+    
     struct DrawFrameContext {
         Matrix4X4f m_worldMatrix;
         Matrix4X4f m_viewMatrix;
