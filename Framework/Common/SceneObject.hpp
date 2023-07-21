@@ -9,6 +9,9 @@
 #include "portable.hpp"
 #include "geommath.hpp"
 #include "AssetLoader.hpp"
+
+#include "zlib.h"
+
 #include "JPEG.hpp"
 #include "PNG.hpp"
 #include "BMP.hpp"

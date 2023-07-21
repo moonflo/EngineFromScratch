@@ -1,9 +1,8 @@
-#include <iostream>
 #include "GraphicsManager.hpp"
-#include "SceneManager.hpp"
-#include "cbuffer.h"
+#include <iostream>
 #include "IApplication.hpp"
 #include "SceneManager.hpp"
+#include "cbuffer.h"
 
 using namespace My;
 using namespace std;
@@ -25,6 +24,11 @@ void GraphicsManager::Tick() {
     }
     // Generate the view matrix based on the camera's position.
     CalculateCameraMatrix();
+
+    cerr << "Now Translation is:" << m_cameraState.getTranslate() << endl;
+    cerr << "Now Rotate is:" << m_cameraState.getRotation() << endl;
+    CameraAppliy();
+
     CalculateLights();
 }
 
@@ -166,4 +170,33 @@ void GraphicsManager::WorldRotateY(float radians) {
     MatrixRotationY(rotationMatrix, radians);
     m_DrawFrameContext.m_worldMatrix =
         m_DrawFrameContext.m_worldMatrix * rotationMatrix;
+}
+
+void GraphicsManager::CameraMovement(Camera_Movement direction) {
+    // get view mat
+    float velocity = m_cameraState.MovementSpeed * 1;
+    if (direction == FORWARD) {
+        Normalize(m_cameraState.Front);
+        m_cameraState.Position =
+            m_cameraState.Position + Product(m_cameraState.Front, velocity);
+    }
+    if (direction == BACKWARD) {
+        Normalize(m_cameraState.Front);
+        m_cameraState.Position =
+            m_cameraState.Position - Product(m_cameraState.Front, velocity);
+    }
+    if (direction == LEFT) {
+        Vector3f movement;
+        CrossProduct(movement, m_cameraState.Front, m_cameraState.Up);
+        Normalize(movement);
+        m_cameraState.Position =
+            m_cameraState.Position - Product(movement, velocity);
+    }
+    if (direction == RIGHT) {
+        Vector3f movement;
+        CrossProduct(movement, m_cameraState.Front, m_cameraState.Up);
+        Normalize(movement);
+        m_cameraState.Position =
+            m_cameraState.Position + Product(movement, velocity);
+    }
 }
