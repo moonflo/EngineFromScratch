@@ -2,14 +2,13 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-17 16:21:31
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-20 16:56:18
+ * @LastEditTime: 2023-07-21 17:53:36
  * @FilePath: \EngineFromScratch\Framework\Common\utility.hpp
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
-#include <glad/glad.h>  // Include glad.h before any other OpenGL header
-#include <windows.h>    // Include windows.h for system time functions
+#include <windows.h>  // Include windows.h for system time functions
 #include <iostream>
 #include <string>  // Include string for parsing
 

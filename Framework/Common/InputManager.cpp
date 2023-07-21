@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-17 23:31:17
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-19 15:41:33
+ * @LastEditTime: 2023-07-21 18:08:55
  * @FilePath: \EngineFromScratch\Framework\Common\InputManager.cpp
  * @Description: 
  * 
@@ -12,23 +12,23 @@
 #include <iostream>
 #include "GraphicsManager.hpp"
 #include "geommath.hpp"
-#include "utility.hpp"
+// #include "utility.hpp"
 
 using namespace My;
 using namespace std;
 
 int InputManager::Initialize() {
-    currentTime = get_time_as_float();
-    lastTime = get_time_as_float();
+    // currentTime = get_time_as_float();
+    // lastTime = get_time_as_float();
     return 0;
 }
 
 void InputManager::Finalize() {}
 
 void InputManager::Tick() {
-    currentTime = get_time_as_float();
-    deltaTime = currentTime - lastTime;
-    lastTime = currentTime;
+    // currentTime = get_time_as_float();
+    // deltaTime = currentTime - lastTime;
+    // lastTime = currentTime;
 }
 
 void InputManager::UpArrowKeyDown() {
@@ -78,37 +78,60 @@ void InputManager::RightArrowKeyDown() {
 }
 
 void InputManager::RightArrowKeyUp() {
-#ifdef DEBUG
+
     cerr << "[InputManager] Right Arrow Key Up!" << endl;
-#endif
 }
 
 void InputManager::WKeyUp() {
-#ifdef DEBUG
+
     cerr << "[InputManager] W Key Up!" << endl;
-#endif
 }
 void InputManager::AKeyUp() {
-#ifdef DEBUG
+
     cerr << "[InputManager] A Key Up!" << endl;
-#endif
 }
 void InputManager::SKeyUp() {
-#ifdef DEBUG
+
     cerr << "[InputManager] S Key Up!" << endl;
-#endif
 }
 void InputManager::DKeyUp() {
-#ifdef DEBUG
+
     cerr << "[InputManager] D Key Up!" << endl;
-#endif
 }
 
 void InputManager::WKeyDown() {
-#ifdef DEBUG
-    cerr << "[InputManager] W Key Up!" << endl;
-#endif
+    g_pGraphicsManager->CameraMovement(My::Camera_Movement::FORWARD);
+    cerr << "[InputManager] W Key Down!" << endl;
+    cerr << "Now Translation is:"
+         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+         << endl;
 }
 
-void InputManager::WKeyDown() {}
-void MouseScroll(int zDelta, int xposIn, int yposIn) {}
+void InputManager::AKeyDown() {
+    g_pGraphicsManager->CameraMovement(My::Camera_Movement::LEFT);
+    cerr << "[InputManager] A Key Down!" << endl;
+    cerr << "Now Translation is:"
+         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+         << endl;
+}
+void InputManager::SKeyDown() {
+    g_pGraphicsManager->CameraMovement(My::Camera_Movement::BACKWARD);
+    cerr << "[InputManager] S Key Down!" << endl;
+    cerr << "Now Translation is:"
+         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+         << endl;
+}
+void InputManager::DKeyDown() {
+    g_pGraphicsManager->CameraMovement(My::Camera_Movement::RIGHT);
+    cerr << "[InputManager] D Key Down!" << endl;
+    cerr << "Now Translation is:"
+         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+         << endl;
+}
+
+void InputManager::MouseMove(int xposIn, int yposIn){};
+void InputManager::MouseScroll(int zDelta, int xposIn, int yposIn){};

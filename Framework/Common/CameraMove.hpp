@@ -2,14 +2,13 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-19 16:42:47
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-20 16:42:51
+ * @LastEditTime: 2023-07-21 18:27:05
  * @FilePath: \EngineFromScratch\Framework\Common\CameraMove.hpp
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 #pragma once
-#include <glad/glad.h>
 #include <vector>
 #include "geommath.hpp"
 
@@ -17,7 +16,7 @@ namespace My {
 enum Camera_Movement { FORWARD, BACKWARD, LEFT, RIGHT };
 
 // Default camera values
-const float YAW = -90.0f;
+const float YAW = 0.0f;
 const float PITCH = 0.0f;
 const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
@@ -53,7 +52,7 @@ class CameraState {
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
-    }
+    };
     // constructor with scalar values
     CameraState(float posX, float posY, float posZ, float upX, float upY,
                 float upZ, float yaw, float pitch)
@@ -66,7 +65,7 @@ class CameraState {
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
-    }
+    };
 
     void clear(){};
 
@@ -82,8 +81,8 @@ class CameraState {
     };
 
    private:
-    double angle_to_radian(double degree) { return degree * (PI / 180.0); }
-    double radian_to_angle(double rad) { return rad * (180.0 / PI); }
+    double angle_to_radian(double degree) { return degree * (PI / 180.0); };
+    double radian_to_angle(double rad) { return rad * (180.0 / PI); };
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors() {
         // calculate the new Front vector
@@ -97,7 +96,7 @@ class CameraState {
         Normalize(Right);
         CrossProduct(Right, Front, Up);
         Normalize(Up);
-    }
+    };
 };
 
 }  // namespace My
