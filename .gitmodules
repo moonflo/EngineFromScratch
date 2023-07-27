@@ -16,3 +16,6 @@
 [submodule "External/src/opengex"]
 	path = External/src/opengex
 	url = https://github.com/moonflo/OpenGEX
+[submodule "External/src/bullet3"]
+	path = External/src/bullet3
+	url = https://github.com/moonflo/bullet3

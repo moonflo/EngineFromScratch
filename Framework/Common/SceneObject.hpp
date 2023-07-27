@@ -1,21 +1,28 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-26 16:21:56
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-27 12:37:03
+ * @FilePath: \EngineFromScratch\Framework\Common\SceneObject.hpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
 #include <assert.h>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
+#include "AssetLoader.hpp"
+#include "BMP.hpp"
 #include "Guid.hpp"
 #include "Image.hpp"
-#include "portable.hpp"
-#include "geommath.hpp"
-#include "AssetLoader.hpp"
-
-#include "zlib.h"
-
 #include "JPEG.hpp"
 #include "PNG.hpp"
-#include "BMP.hpp"
 #include "TGA.hpp"
+#include "geommath.hpp"
+#include "portable.hpp"
 
 namespace My {
 ENUM(SceneObjectType){
@@ -29,6 +36,21 @@ ENUM(SceneObjectType){
     kSceneObjectTypeVertexArray = "VARR"_i32,
     kSceneObjectTypeIndexArray = "VARR"_i32,
     kSceneObjectTypeGeometry = "GEOM"_i32,
+};
+
+ENUM(SceneObjectCollisionType){
+    kSceneObjectCollisionTypeNone = "CNON"_i32,
+    kSceneObjectCollisionTypeSphere = "CSPH"_i32,
+    kSceneObjectCollisionTypeBox = "CBOX"_i32,
+    kSceneObjectCollisionTypeCylinder = "CCYL"_i32,
+    kSceneObjectCollisionTypeCapsule = "CCAP"_i32,
+    kSceneObjectCollisionTypeCone = "CCON"_i32,
+    kSceneObjectCollisionTypeMultiSphere = "CMUL"_i32,
+    kSceneObjectCollisionTypeConvexHull = "CCVH"_i32,
+    kSceneObjectCollisionTypeConvexMesh = "CCVM"_i32,
+    kSceneObjectCollisionTypeBvhMesh = "CBVM"_i32,
+    kSceneObjectCollisionTypeHeightfield = "CHIG"_i32,
+    kSceneObjectCollisionTypePlane = "CPLN"_i32,
 };
 
 std::ostream& operator<<(std::ostream& out, SceneObjectType type);
@@ -280,25 +302,15 @@ class SceneObjectMesh : public BaseSceneObject {
     std::vector<SceneObjectVertexArray> m_VertexArray;
     PrimitiveType m_PrimitiveType;
 
-    bool m_bVisible;
-    bool m_bShadow;
-    bool m_bMotionBlur;
-
    public:
     SceneObjectMesh(bool visible = true, bool shadow = true,
                     bool motion_blur = true)
-        : BaseSceneObject(SceneObjectType::kSceneObjectTypeMesh),
-          m_bVisible(visible),
-          m_bShadow(shadow),
-          m_bMotionBlur(motion_blur){};
+        : BaseSceneObject(SceneObjectType::kSceneObjectTypeMesh){};
     SceneObjectMesh(SceneObjectMesh&& mesh)
         : BaseSceneObject(SceneObjectType::kSceneObjectTypeMesh),
           m_IndexArray(std::move(mesh.m_IndexArray)),
           m_VertexArray(std::move(mesh.m_VertexArray)),
-          m_PrimitiveType(mesh.m_PrimitiveType),
-          m_bVisible(mesh.m_bVisible),
-          m_bShadow(mesh.m_bShadow),
-          m_bMotionBlur(mesh.m_bMotionBlur){};
+          m_PrimitiveType(mesh.m_PrimitiveType){};
     void AddIndexArray(SceneObjectIndexArray&& array) {
         m_IndexArray.push_back(std::move(array));
     };
@@ -581,10 +593,13 @@ class SceneObjectGeometry : public BaseSceneObject {
     bool m_bVisible;
     bool m_bShadow;
     bool m_bMotionBlur;
+    SceneObjectCollisionType m_CollisionType;
 
    public:
     SceneObjectGeometry(void)
-        : BaseSceneObject(SceneObjectType::kSceneObjectTypeGeometry){};
+        : BaseSceneObject(SceneObjectType::kSceneObjectTypeGeometry),
+          m_CollisionType(
+              SceneObjectCollisionType::kSceneObjectCollisionTypeNone){};
 
     void SetVisibility(bool visible) { m_bVisible = visible; };
     const bool Visible() { return m_bVisible; };
@@ -592,6 +607,12 @@ class SceneObjectGeometry : public BaseSceneObject {
     const bool CastShadow() { return m_bShadow; };
     void SetIfMotionBlur(bool motion_blur) { m_bMotionBlur = motion_blur; };
     const bool MotionBlur() { return m_bMotionBlur; };
+    void SetCollisionType(SceneObjectCollisionType collision_type) {
+        m_CollisionType = collision_type;
+    };
+    const SceneObjectCollisionType CollisionType() const {
+        return m_CollisionType;
+    }
 
     void AddMesh(std::shared_ptr<SceneObjectMesh>& mesh) {
         m_Mesh.push_back(std::move(mesh));

@@ -2,7 +2,7 @@
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
  * @Date: 2023-07-17 23:30:25
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-20 16:58:19
+ * @LastEditTime: 2023-07-26 16:16:43
  * @FilePath: \EngineFromScratch\Framework\Common\InputManager.hpp
  * @Description: 
  * 
@@ -26,6 +26,9 @@ class InputManager : implements IRuntimeModule {
     void LeftArrowKeyUp();
     void RightArrowKeyDown();
     void RightArrowKeyUp();
+    
+    void ResetKeyDown();
+    void ResetKeyUp();
 
     void WKeyDown();
     void WKeyUp();

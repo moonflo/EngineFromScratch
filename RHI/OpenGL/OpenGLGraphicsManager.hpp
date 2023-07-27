@@ -1,13 +1,13 @@
 #pragma once
+#include <map>
+#include <memory>
+#include <string>
 #include <unordered_map>
 #include <vector>
-#include <map>
-#include <string>
-#include <memory>
 #include "GraphicsManager.hpp"
+#include "SceneManager.hpp"
 #include "geommath.hpp"
 #include "glad/glad.h"
-#include "SceneObject.hpp"
 
 namespace My {
 class OpenGLGraphicsManager : public GraphicsManager {
@@ -43,7 +43,7 @@ class OpenGLGraphicsManager : public GraphicsManager {
         GLenum mode;
         GLenum type;
         GLsizei count;
-        std::shared_ptr<Matrix4X4f> transform;
+        std::shared_ptr<SceneGeometryNode> node;
         std::shared_ptr<SceneObjectMaterial> material;
     };
 
