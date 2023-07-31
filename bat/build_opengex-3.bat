@@ -5,4 +5,4 @@ del /f /s /q * >nul
 cmake -DCMAKE_INSTALL_PREFIX=..\..\ -G "Visual Studio 17 2022" -Thost=x64 ..\..\src\opengex-3
 cmake --build . --config debug --target install
 popd
-pause
+

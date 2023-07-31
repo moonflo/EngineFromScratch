@@ -1,9 +1,8 @@
-prefix=F:/engineFromScratch/EngineFromScratch/External
-exec_prefix=F:/engineFromScratch/EngineFromScratch/External
-libdir=F:/engineFromScratch/EngineFromScratch/External/Windows/lib
-sharedlibdir=F:/engineFromScratch/EngineFromScratch/External/Windows/lib
-includedir=F:/engineFromScratch/EngineFromScratch/External/Windows/include
-
+prefix=D:/gitfile/Xuepu/EngineFromScratch/External
+exec_prefix=D:/gitfile/Xuepu/EngineFromScratch/External
+libdir=D:/gitfile/Xuepu/EngineFromScratch/External/Windows/lib
+sharedlibdir=D:/gitfile/Xuepu/EngineFromScratch/External/Windows/lib
+includedir=D:/gitfile/Xuepu/EngineFromScratch/External/Windows/include
 
 Name: zlib
 Description: zlib compression library
