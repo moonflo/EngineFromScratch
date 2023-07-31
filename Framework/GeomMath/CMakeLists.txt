@@ -1,6 +1,6 @@
 IF(${WIN32})
         SET(GEOMMATH_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/GeomMath.lib)
-        SET(ISPC_COMPILER ispc.exe)
+        SET(ISPC_COMPILER ${PROJECT_SOURCE_DIR}/External/src/ispc-v1.20.0-windows/bin/ispc.exe)
         # SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/External/ispc/Release/)
         if((TARGET_ARCH MATCHES "x86_64" OR TARGET_ARCH MATCHES "ia64") AND NOT OF_32BIT)
                 MESSAGE( STATUS "[INFO] BUILD ISPC CODE WITH X86-64")

@@ -4,6 +4,7 @@ libdir=F:/engineFromScratch/EngineFromScratch/External/Windows/lib
 sharedlibdir=F:/engineFromScratch/EngineFromScratch/External/Windows/lib
 includedir=F:/engineFromScratch/EngineFromScratch/External/Windows/include
 
+
 Name: zlib
 Description: zlib compression library
 Version: 1.2.11

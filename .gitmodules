@@ -1,9 +1,6 @@
 [submodule "External/src/zlib"]
 	path = External/src/zlib
 	url = https://github.com/moonflo/zlib
-[submodule "External/src/ispc"]
-	path = External/src/ispc
-	url = https://github.com/moonflo/ispc
 [submodule "External/src/libpng"]
 	path = External/src/libpng
 	url = https://github.com/moonflo/libpng
