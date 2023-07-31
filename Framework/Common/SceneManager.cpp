@@ -1,8 +1,18 @@
 /*
  * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-17 21:48:22
+ * @Date: 2023-07-26 16:03:03
  * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-17 23:42:52
+ * @LastEditTime: 2023-07-27 12:35:43
+ * @FilePath: \EngineFromScratch\Framework\Common\SceneManager.cpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-26 16:03:03
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-26 16:18:44
  * @FilePath: \EngineFromScratch\Framework\Common\SceneManager.cpp
  * @Description: 
  * 
@@ -20,7 +30,7 @@ SceneManager::~SceneManager() {}
 int SceneManager::Initialize() {
     int result = 0;
 
-    m_pScene = make_unique<Scene>();
+    m_pScene = make_shared<Scene>();
     return result;
 }
 
@@ -39,29 +49,38 @@ int SceneManager::LoadScene(const char* scene_file_name) {
     }
 }
 
+void SceneManager::ResetScene() {
+    m_bDirtyFlag = true;
+}
+
 bool SceneManager::LoadOgexScene(const char* ogex_scene_file_name) {
+    std::cerr << "[Scenemanager : INFO] Starting loading ogexfile.\n";
     string ogex_text =
         g_pAssetLoader->SyncOpenAndReadTextFileToString(ogex_scene_file_name);
 
     if (ogex_text.empty()) {
         return false;
     }
-
+    
     OgexParser ogex_parser;
     m_pScene = ogex_parser.Parse(ogex_text);
 
     if (!m_pScene) {
+        std::cerr << "[Scenemanager : INFO] Failed to load Scene.\n";
         return false;
     }
-
+    std::cerr << "[Scenemanager : INFO] Scene loading successfully.\n";
     return true;
 }
 
 const Scene& SceneManager::GetSceneForRendering() {
-    m_bDirtyFlag = false;
     return *m_pScene;
 }
 
 bool SceneManager::IsSceneChanged() {
     return m_bDirtyFlag;
+}
+
+void SceneManager::NotifySceneIsRenderingQueued() {
+    m_bDirtyFlag = false;
 }

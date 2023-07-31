@@ -1,6 +1,16 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-26 16:03:03
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-27 13:22:34
+ * @FilePath: \EngineFromScratch\Platform\Windows\OpenGLApplication.cpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
+#include "OpenGLApplication.hpp"
 #include <stdio.h>
 #include <tchar.h>
-#include "OpenGLApplication.hpp"
 #include "glad/glad_wgl.h"
 
 using namespace My;
@@ -209,11 +219,11 @@ int OpenGLApplication::Initialize() {
 }
 
 void OpenGLApplication::Finalize() {
-    if (m_RenderContext) {
-        wglMakeCurrent(NULL, NULL);
-        wglDeleteContext(m_RenderContext);
-        m_RenderContext = 0;
-    }
+    //if (m_RenderContext) {
+    //    wglMakeCurrent(NULL, NULL);
+    //    wglDeleteContext(m_RenderContext);
+    //    m_RenderContext = 0;
+    //}
 
     WindowsApplication::Finalize();
 }
@@ -223,6 +233,6 @@ void OpenGLApplication::Tick() {
     g_pGraphicsManager->Clear();
     g_pGraphicsManager->Draw();
 
-    // Present the back buffer to the screen since rendering is complete.
+    //Present the back buffer to the screen since rendering is complete.
     SwapBuffers(m_hDC);
 }

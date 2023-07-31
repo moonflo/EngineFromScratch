@@ -123,11 +123,12 @@ My::Buffer My::AssetLoader::SyncOpenAndReadBinary(const char* filePath) {
         fread(pBuff->GetData(), length, 1, static_cast<FILE*>(fp));
 
         CloseFile(fp);
+        fprintf(stderr, "Read file '%s', %d bytes\n", filePath, length);
     } else {
         fprintf(stderr, "Error opening file '%s'\n", filePath);
         pBuff = new Buffer();
     }
-
+    
 #ifdef DEBUG
     fprintf(stderr, "Read file '%s', %d bytes\n", filePath, length);
 #endif

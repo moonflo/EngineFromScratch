@@ -1,6 +1,9 @@
 echo [INFO] ----------Building external libraries...
 pushd bat
 
+echo [INFO] ----------Building opengex...
+call build_bullet3.bat
+
 echo [INFO] ----------Building zlib...
 call build_zlib.bat
 

@@ -88,12 +88,14 @@ class SceneNode : public BaseSceneNode {
 };
 
 typedef BaseSceneNode SceneEmptyNode;
+
 class SceneGeometryNode : public SceneNode<SceneObjectGeometry> {
    protected:
     bool m_bVisible;
     bool m_bShadow;
     bool m_bMotionBlur;
     std::vector<std::string> m_Materials;
+    void* m_pRigidBody = nullptr;
 
    protected:
     virtual void dump(std::ostream& out) const {
@@ -125,8 +127,19 @@ class SceneGeometryNode : public SceneNode<SceneObjectGeometry> {
         if (index < m_Materials.size())
             return m_Materials[index];
         else
-            return std::string();
+            return std::string("default");
     };
+
+    void LinkRigidBody(void* rigidBody) { m_pRigidBody = rigidBody; }
+
+    void* UnlinkRigidBody() {
+        void* rigidBody = m_pRigidBody;
+        m_pRigidBody = nullptr;
+
+        return rigidBody;
+    }
+
+    void* RigidBody() { return m_pRigidBody; }
 };
 
 class SceneLightNode : public SceneNode<SceneObjectLight> {

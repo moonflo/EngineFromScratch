@@ -1,8 +1,9 @@
-#include <iostream>
-#include <fstream>
 #include "OpenGLGraphicsManager.hpp"
+#include <fstream>
+#include <iostream>
 #include "AssetLoader.hpp"
 #include "IApplication.hpp"
+#include "PhysicsManager.hpp"
 #include "SceneManager.hpp"
 
 const char VS_SHADER_SOURCE_FILE[] = "Shaders/basic_vs.glsl";
@@ -287,8 +288,8 @@ void OpenGLGraphicsManager::InitializeBuffers() {
     auto& scene = g_pSceneManager->GetSceneForRendering();
 
     // Geometries
-    auto pGeometryNode = scene.GetFirstGeometryNode();
-    while (pGeometryNode) {
+    for (auto _it : scene.GeometryNodes) {
+        auto pGeometryNode = _it.second;
         if (pGeometryNode->Visible()) {
             auto pGeometry =
                 scene.GetGeometry(pGeometryNode->GetSceneObjectRef());
@@ -466,13 +467,11 @@ void OpenGLGraphicsManager::InitializeBuffers() {
                 dbc.mode = mode;
                 dbc.type = type;
                 dbc.count = indexCount;
-                dbc.transform = pGeometryNode->GetCalculatedTransform();
+                dbc.node = pGeometryNode;
                 dbc.material = material;
                 m_DrawBatchContext.push_back(std::move(dbc));
             }
         }
-
-        pGeometryNode = scene.GetNextGeometryNode();
     }
 
     return;
@@ -484,7 +483,30 @@ void OpenGLGraphicsManager::RenderBuffers() {
     for (auto dbc : m_DrawBatchContext) {
         // Set the color shader as the current shader program and set the matrices that it will use for rendering.
         glUseProgram(m_shaderProgram);
-        SetPerBatchShaderParameters("modelMatrix", *dbc.transform);
+
+        Matrix4X4f trans = *dbc.node->GetCalculatedTransform();
+
+        if (void* rigidBody = dbc.node->RigidBody()) {
+            // the geometry has rigid body bounded, we blend the simlation result here.
+            Matrix4X4f simulated_result =
+                g_pPhysicsManager->GetRigidBodyTransform(rigidBody);
+
+            // reset the translation part of the matrix
+            memcpy(trans[3], Vector3f(0.0f, 0.0f, 0.0f), sizeof(float) * 3);
+
+            // apply the rotation part of the simlation result
+            Matrix4X4f rotation;
+            BuildIdentityMatrix(rotation);
+            memcpy(rotation[0], simulated_result[0], sizeof(float) * 3);
+            memcpy(rotation[1], simulated_result[1], sizeof(float) * 3);
+            memcpy(rotation[2], simulated_result[2], sizeof(float) * 3);
+            trans = trans * rotation;
+
+            // replace the translation part of the matrix with simlation result directly
+            memcpy(trans[3], simulated_result[3], sizeof(float) * 3);
+        }
+
+        SetPerBatchShaderParameters("modelMatrix", trans);
         glBindVertexArray(dbc.vao);
 
         /* well, we have different material for each index buffer so we can not draw them together

@@ -1,15 +1,6 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-17 21:48:22
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-17 23:42:40
- * @FilePath: \EngineFromScratch\Framework\Common\SceneManager.hpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
 #pragma once
 #include "geommath.hpp"
+
 #include "IRuntimeModule.hpp"
 #include "SceneParser.hpp"
 
@@ -26,13 +17,17 @@ class SceneManager : implements IRuntimeModule {
     int LoadScene(const char* scene_file_name);
 
     bool IsSceneChanged();
+    void NotifySceneIsRenderingQueued();
+
     const Scene& GetSceneForRendering();
+
+    void ResetScene();
 
    protected:
     bool LoadOgexScene(const char* ogex_scene_file_name);
 
    protected:
-    std::unique_ptr<Scene> m_pScene;
+    std::shared_ptr<Scene> m_pScene;
     bool m_bDirtyFlag = false;
 };
 

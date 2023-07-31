@@ -42,10 +42,10 @@ void main(void)
 {
     vec3 N=normalize(normal.xyz);
     vec3 L=normalize((viewMatrix*vec4(lightPosition,1.f)).xyz-v.xyz);
-    vec3 R=normalize(2*dot(L,N)*N-L);
+    vec3 R=normalize(2.f*clamp(dot(L,N),0.f,1.f)*N-L);
     vec3 V=normalize(v.xyz);
     if(diffuseColor.r<0)
-    outputColor=vec4(ambientColor.rgb+lightColor.rgb*texture(defaultSampler,uv).rgb*dot(N,L)+specularColor.rgb*pow(clamp(dot(R,V),0.f,1.f),specularPower),1.f);
+    outputColor=vec4(ambientColor.rgb+lightColor.rgb*texture(defaultSampler,uv).rgb*clamp(dot(N,L),0.f,1.f)+specularColor.rgb*pow(clamp(dot(R,V),0.f,1.f),specularPower),1.f);
     else
-    outputColor=vec4(ambientColor.rgb+lightColor.rgb*diffuseColor.rgb*dot(N,L)+specularColor.rgb*pow(clamp(dot(R,V),0.f,1.f),specularPower),1.f);
+    outputColor=vec4(ambientColor.rgb+lightColor.rgb*diffuseColor.rgb*clamp(dot(N,L),0.f,1.f)+specularColor.rgb*pow(clamp(dot(R,V),0.f,1.f),specularPower),1.f);
 }

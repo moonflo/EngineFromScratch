@@ -1,15 +1,6 @@
-/*
- * @Author: Xuepu Zeng 2307665474zxp@gmail.com
- * @Date: 2023-07-17 23:40:34
- * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
- * @LastEditTime: 2023-07-17 23:40:44
- * @FilePath: \EngineFromScratch\Platform\Windows\OpenGLApplicationConfig.cpp
- * @Description: 
- * 
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
- */
 #include <tchar.h>
 #include "OpenGLApplication.hpp"
+
 #include "OpenGL/OpenGLGraphicsManager.hpp"
 
 namespace My {
@@ -24,4 +15,6 @@ MemoryManager* g_pMemoryManager =
 AssetLoader* g_pAssetLoader = static_cast<AssetLoader*>(new AssetLoader);
 SceneManager* g_pSceneManager = static_cast<SceneManager*>(new SceneManager);
 InputManager* g_pInputManager = static_cast<InputManager*>(new InputManager);
+PhysicsManager* g_pPhysicsManager =
+    static_cast<PhysicsManager*>(new PhysicsManager);
 }  // namespace My

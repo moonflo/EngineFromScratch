@@ -1,9 +1,24 @@
+/*
+ * @Author: Xuepu Zeng 2307665474zxp@gmail.com
+ * @Date: 2023-07-26 16:03:03
+ * @LastEditors: Xuepu Zeng 2307665474zxp@gmail.com
+ * @LastEditTime: 2023-07-27 12:45:28
+ * @FilePath: \EngineFromScratch\Framework\Common\portable.hpp
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
 #pragma once
 #include <cstdint>
+
 #include <climits>
+
 #include <memory>
+
 #include <algorithm>
+
 #include <assert.h>
+
 #include "config.h"
 
 typedef int32_t four_char_enum;
@@ -26,13 +41,13 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 // #ifndef HAVE_CLAMP
 // namespace std {
 // template <class T>
-// constexpr const T& clamp(const T& v, const T& lo, const T& hi) {
-//     return clamp(v, lo, hi, std::less<T>());
+// const T& clamp(const T& v, const T& lo, const T& hi) {
+//    return clamp(v, lo, hi, std::less<T>());
 // }
 
 // template <class T, class Compare>
-// constexpr const T& clamp(const T& v, const T& lo, const T& hi, Compare comp) {
-//     return assert(!comp(hi, lo)), comp(v, lo) ? lo : comp(hi, v) ? hi : v;
+// const T& clamp(const T& v, const T& lo, const T& hi, Compare comp) {
+//    return assert(!comp(hi, lo)), comp(v, lo) ? lo : comp(hi, v) ? hi : v;
 // }
 // }  // namespace std
 // #endif
