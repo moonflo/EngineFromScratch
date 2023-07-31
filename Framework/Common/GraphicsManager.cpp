@@ -7,7 +7,6 @@
 #include "IApplication.hpp"
 #include "SceneManager.hpp"
 
-
 using namespace My;
 using namespace std;
 
@@ -29,6 +28,7 @@ void GraphicsManager::Tick() {
     }
     // Generate the view matrix based on the camera's position.
     CalculateCameraMatrix();
+    CameraAppliy();
     CalculateLights();
 
     Clear();
@@ -159,4 +159,59 @@ void GraphicsManager::InitializeBuffers() {}
 
 void GraphicsManager::RenderBuffers() {
     cout << "[RHI] GraphicsManager::RenderBuffers()" << endl;
+}
+
+void GraphicsManager::WorldRotateX(float radians) {
+    Matrix4X4f rotationMatrix;
+    MatrixRotationX(rotationMatrix, radians);
+    m_DrawFrameContext.m_worldMatrix =
+        m_DrawFrameContext.m_worldMatrix * rotationMatrix;
+}
+
+void GraphicsManager::WorldRotateY(float radians) {
+    Matrix4X4f rotationMatrix;
+    MatrixRotationY(rotationMatrix, radians);
+    m_DrawFrameContext.m_worldMatrix =
+        m_DrawFrameContext.m_worldMatrix * rotationMatrix;
+}
+
+void GraphicsManager::CameraMovement(Camera_Movement direction) {
+    // reverse caculate the looking dir
+    Vector3f tempVec3(*(m_DrawFrameContext.m_viewMatrix[8]),
+                      *(m_DrawFrameContext.m_viewMatrix[9]),
+                      *(m_DrawFrameContext.m_viewMatrix[10]));
+    Normalize(tempVec3);
+    m_cameraState.Front = Vector3f(-tempVec3[0], -tempVec3[1], -tempVec3[2]);
+    tempVec3 = Vector3f(*(m_DrawFrameContext.m_viewMatrix[4]),
+                        *(m_DrawFrameContext.m_viewMatrix[5]),
+                        *(m_DrawFrameContext.m_viewMatrix[6]));
+    Normalize(tempVec3);
+    m_cameraState.Up = Vector3f(tempVec3[0], tempVec3[1], tempVec3[2]);
+
+    // get view mat
+    float velocity = m_cameraState.MovementSpeed * 1;
+    if (direction == FORWARD) {  // W
+        Vector3f movement;
+        CrossProduct(movement, m_cameraState.Front, m_cameraState.Up);
+        Normalize(movement);
+        m_cameraState.Position =
+            m_cameraState.Position + Product(movement, velocity);
+    }
+    if (direction == BACKWARD) {  // s
+        Vector3f movement;
+        CrossProduct(movement, m_cameraState.Front, m_cameraState.Up);
+        Normalize(movement);
+        m_cameraState.Position =
+            m_cameraState.Position - Product(movement, velocity);
+    }
+    if (direction == LEFT) {  // A
+        Normalize(m_cameraState.Front);
+        m_cameraState.Position =
+            m_cameraState.Position + Product(m_cameraState.Front, velocity);
+    }
+    if (direction == RIGHT) {  // D
+        Normalize(m_cameraState.Front);
+        m_cameraState.Position =
+            m_cameraState.Position - Product(m_cameraState.Front, velocity);
+    }
 }
