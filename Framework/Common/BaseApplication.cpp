@@ -110,6 +110,8 @@ int BaseApplication::LoadScene()
     if ((ret = g_pSceneManager->LoadScene(scene_file_name.c_str())) != 0) {
         cerr << "Failed. err = " << ret;
         return ret;
+    }else{
+        cerr << "[BaseApplication : INFO] Successfully load scene." << endl;
     }
 
     cerr << "Success";

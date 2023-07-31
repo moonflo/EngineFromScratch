@@ -10,6 +10,7 @@
  */
 #pragma once
 
+#include <iostream>
 #include <cstdio>
 #include <string>
 #include <utility>
@@ -68,7 +69,7 @@ class AssetLoader : public IRuntimeModule {
         if (content) {
             result = std::string(std::move(content));
         }
-
+        std::cout << "[AssetLoader : INFO] Loaded file: " << fileName << std::endl;
         return result;
     }
 

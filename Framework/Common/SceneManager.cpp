@@ -54,20 +54,22 @@ void SceneManager::ResetScene() {
 }
 
 bool SceneManager::LoadOgexScene(const char* ogex_scene_file_name) {
+    std::cerr << "[Scenemanager : INFO] Starting loading ogexfile.\n";
     string ogex_text =
         g_pAssetLoader->SyncOpenAndReadTextFileToString(ogex_scene_file_name);
 
     if (ogex_text.empty()) {
         return false;
     }
-
+    
     OgexParser ogex_parser;
     m_pScene = ogex_parser.Parse(ogex_text);
 
     if (!m_pScene) {
+        std::cerr << "[Scenemanager : INFO] Failed to load Scene.\n";
         return false;
     }
-
+    std::cerr << "[Scenemanager : INFO] Scene loading successfully.\n";
     return true;
 }
 

@@ -67,6 +67,7 @@ const shared_ptr<SceneCameraNode> Scene::GetFirstCameraNode() const {
 
 void Scene::LoadResource() {
     for (auto material : Materials) {
+       // std::cout << "[Scene : INFO] Loading material: \n" << *material << std::endl;
         material.second->LoadTextures();
     }
 }
