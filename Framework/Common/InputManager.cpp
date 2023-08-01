@@ -101,35 +101,35 @@ void InputManager::DKeyUp() {
 void InputManager::WKeyDown() {
     g_pGraphicsManager->CameraMovement(My::Camera_Movement::FORWARD);
     cerr << "[InputManager] W Key Down!" << endl;
-    cerr << "Now Translation is:"
-         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
-    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
-         << endl;
+    //cerr << "Now Translation is:"
+    //     << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    //cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+    //     << endl;
 }
 
 void InputManager::AKeyDown() {
     g_pGraphicsManager->CameraMovement(My::Camera_Movement::LEFT);
     cerr << "[InputManager] A Key Down!" << endl;
-    cerr << "Now Translation is:"
-         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
-    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
-         << endl;
+    //cerr << "Now Translation is:"
+    //     << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    //cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+    //     << endl;
 }
 void InputManager::SKeyDown() {
     g_pGraphicsManager->CameraMovement(My::Camera_Movement::BACKWARD);
     cerr << "[InputManager] S Key Down!" << endl;
-    cerr << "Now Translation is:"
-         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
-    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
-         << endl;
+    //cerr << "Now Translation is:"
+    //     << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    //cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+    //     << endl;
 }
 void InputManager::DKeyDown() {
     g_pGraphicsManager->CameraMovement(My::Camera_Movement::RIGHT);
     cerr << "[InputManager] D Key Down!" << endl;
-    cerr << "Now Translation is:"
-         << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
-    cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
-         << endl;
+    //cerr << "Now Translation is:"
+    //     << g_pGraphicsManager->m_cameraState.getTranslate() << endl;
+    //cerr << "Now Position is:" << g_pGraphicsManager->m_cameraState.Position
+    //     << endl;
 }
 void InputManager::ResetKeyDown() {
 #ifdef DEBUG
