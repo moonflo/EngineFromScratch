@@ -101,7 +101,7 @@ int BaseApplication::LoadScene()
 {
     int ret;
 
-    string scene_file_name = "Scene/physics_1.ogex";
+    string scene_file_name = "Scene/aili_cycle.ogex";
     if (m_nArgC > 1) {
         scene_file_name = m_ppArgV[1];
     }
