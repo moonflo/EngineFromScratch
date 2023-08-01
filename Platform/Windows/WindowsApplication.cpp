@@ -106,6 +106,18 @@ LRESULT CALLBACK WindowsApplication::WindowProc(HWND hWnd, UINT message,
         } break;
         case WM_KEYUP: {
             switch (wParam) {
+                case 'W':
+                    g_pInputManager->WKeyUp();
+                    break;
+                case 'A':
+                    g_pInputManager->AKeyUp();
+                    break;
+                case 'S':
+                    g_pInputManager->SKeyUp();
+                    break;
+                case 'D':
+                    g_pInputManager->DKeyUp();
+                    break;
                 case VK_LEFT:
                     g_pInputManager->LeftArrowKeyUp();
                     break;
@@ -118,6 +130,7 @@ LRESULT CALLBACK WindowsApplication::WindowProc(HWND hWnd, UINT message,
                 case VK_DOWN:
                     g_pInputManager->DownArrowKeyUp();
                     break;
+
                 case 0x52:  // R Key
                     g_pInputManager->ResetKeyUp();
                     break;
@@ -127,6 +140,19 @@ LRESULT CALLBACK WindowsApplication::WindowProc(HWND hWnd, UINT message,
         } break;
         case WM_KEYDOWN: {
             switch (wParam) {
+                // ... other cases
+                case 'W':
+                    g_pInputManager->WKeyDown();
+                    break;
+                case 'A':
+                    g_pInputManager->AKeyDown();
+                    break;
+                case 'S':
+                    g_pInputManager->SKeyDown();
+                    break;
+                case 'D':
+                    g_pInputManager->DKeyDown();
+                    break;
                 case VK_LEFT:
                     g_pInputManager->LeftArrowKeyDown();
                     break;
@@ -145,6 +171,30 @@ LRESULT CALLBACK WindowsApplication::WindowProc(HWND hWnd, UINT message,
                 default:
                     break;
             }
+        } break;
+        // For mouse movement
+        case WM_MOUSEMOVE: {
+            // Get the x and y coordinates of the mouse cursor
+            int xPos = GET_X_LPARAM(lParam);
+            int yPos = GET_Y_LPARAM(lParam);
+            // Pass them to the input manager
+            g_pInputManager->MouseMove(xPos, yPos);
+        } break;
+
+        /*
+        * That’s a good question. The reason I add the xpos and ypos parameters in the MouseScroll function is 
+        * because they can be useful for some scenarios, such as zooming in or out of a specific point on the screen,
+        * or scrolling a specific window or control under the mouse cursor. However, if you don’t need them, you can 
+        * omit them and just use the zDelta parameter. It depends on your design and requirements.
+        */
+        case WM_MOUSEWHEEL: {
+            // Get the distance and direction of the wheel rotation
+            int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+            // Get the x and y coordinates of the mouse cursor
+            int xPos = GET_X_LPARAM(lParam);
+            int yPos = GET_Y_LPARAM(lParam);
+            // Pass them to the input manager
+            g_pInputManager->MouseScroll(zDelta, xPos, yPos);
         } break;
 
             // this message is read when the window is closed

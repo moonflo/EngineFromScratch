@@ -32,7 +32,7 @@ class BaseApplication : implements IApplication {
 
     virtual void OnDraw(){};
 
-   protected:
+      protected:
     // Flag if need quit the main loop of the application
     static bool m_bQuit;
     GfxConfiguration m_Config;
